@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------
+   Theme tokens. Tailwind's color classes (bg-ink, text-offwhite, etc.)
+   are mapped to these CSS variables in tailwind.config.js, so switching
+   [data-theme] on <html> re-themes the whole app without touching any
+   component file. Accent colors (teal/amber) stay constant across themes
+   on purpose — they're the brand color, not a neutral.
+   --------------------------------------------------------------------- */
+:root {
+  --color-bg: #0D1117;
+  --color-surface: #141B24;
+  --color-surfaceAlt: #1B2430;
+  --color-border: #232D3A;
+  --color-borderLight: #2C3644;
+  --color-text: #E6EDF3;
+  --color-muted: #8B98A5;
+  --color-mutedDark: #5B6672;
+}
+
+[data-theme="light"] {
+  --color-bg: #F7F5EF;
+  --color-surface: #FFFFFF;
+  --color-surfaceAlt: #F0EDE4;
+  --color-border: #E3DED2;
+  --color-borderLight: #D3CCBB;
+  --color-text: #16181C;
+  --color-muted: #5B5748;
+  --color-mutedDark: #8A8570;
+}
+
+@layer utilities {
+  .dot-grid {
+    background-image: radial-gradient(var(--color-borderLight) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+}
+
+html,
+body {
+  background-color: var(--color-bg);
+  transition: background-color 0.2s ease;
+}
+
+::selection {
+  background: #5EEAD4;
+  color: #0D1117;
+}
