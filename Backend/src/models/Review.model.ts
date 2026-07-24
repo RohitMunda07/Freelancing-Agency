@@ -1,52 +1,53 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { UserModel } from "./user.model";
+import { ProjectModel } from "./Project.model";
 
 export interface FeedbackDocument extends Document {
+    user: mongoose.Types.ObjectId | null;
+    project: mongoose.Types.ObjectId | null;
+
     rating: number;
+
     comment: string;
-    isPurchaseVerified: boolean
-    images: {
-        imageUrl: string,
-        publicId: string
-    }[]
-    feedbackUserId: mongoose.Types.ObjectId;
-    feedbackProductId: mongoose.Types.ObjectId;
+
+    // check fot status from ER-diagram
+    isVisible: boolean;
 }
 
 const FeedbackDbSchema: Schema<FeedbackDocument> = new Schema({
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: UserModel,
+        required: [true, "User ref is required"],
+        default: null
+    },
+    project: {
+        type: Schema.Types.ObjectId,
+        ref: ProjectModel,
+        required: [true, "Project ref is required"],
+        default: null
+    },
+
     rating: {
         type: Number,
         min: 1,
         max: 5,
         required: true
     },
+
     comment: {
         type: String,
         trim: true
     },
-    images: [
-        {
-            imageUrl: { type: String },
-            publicId: { type: String }
-        }
-    ],
-    isPurchaseVerified: {
+
+    isVisible: {
         type: Boolean,
         default: false
-    },
-    feedbackUserId: {
-        type: Schema.Types.ObjectId,
-        ref: "UserModel",
-        required: true
-    },
-    feedbackProductId: {
-        type: Schema.Types.ObjectId,
-        ref: "ProductModel",
-        required: true
     }
 }, { timestamps: true })
 
 FeedbackDbSchema.index(
-    { feedbackUserId: 1, feedbackProductId: 1 },
+    { user: 1, },
     { unique: true }
 )
 

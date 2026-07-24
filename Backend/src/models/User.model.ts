@@ -330,6 +330,6 @@ UserDbSchema.set("toObject", {
 /* -------------------------------------------------------------------------- */
 
 export const UserModel = mongoose.model<UserDocument>(
-    "User",
+    "UserModel",
     UserDbSchema
 );
