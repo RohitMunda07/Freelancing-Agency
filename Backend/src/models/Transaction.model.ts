@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document, ObjectId } from "mongoose";
-import { UserModel } from "./user.model";
+import { UserModel } from "./User.model";
 import { TransactionModel } from "./Payment.model";
 import { ProjectModel } from "./Project.model";
 

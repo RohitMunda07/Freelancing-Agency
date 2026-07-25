@@ -1,9 +1,8 @@
 import { asyncHandler, ApiError, ApiResponse } from "../utils/modules.js";
-import { UserModel } from "../models/user.model.js";
+import { UserModel } from "../models/User.model";
 import { UserZodSchema, LoginZodSchema, PasswordChangeSchema } from "../validators/user.schema.js"
 import jwt from "jsonwebtoken"
 import type { Request } from "express";
-import { generateOTP, requestOTP } from "../emails/resetPasswordOTP.email.js";
 
 // declared accessTokenOptions & refreshTokenOptions globally for usage in every needed scenario
 // maxAge is used for longer mortality of tokens. now the cookie won't die when browser closes. (Sufficient for users)
