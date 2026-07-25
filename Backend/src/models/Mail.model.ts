@@ -1,25 +1,33 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { UserModel } from "./user.model";
 
-export interface MailDocument {
-    user: mongoose.Types.ObjectId | null;
+// Was fully commented out. Mirrors Message/Payment/Invoice status handling.
+export enum mailStatus {
+    PENDING = "pending",
+    SENT = "sent",
+    FAILED = "failed"
+}
+
+// Was just `interface MailDocument` — missing `extends Document`, so it had
+// no `_id`, `.save()`, or timestamps at the type level despite the schema
+// having `timestamps: true`.
+export interface MailDocument extends Document {
+    user: mongoose.Types.ObjectId;
     recipient: string;
     subject: string;
     template: string;
-    // status: enum;
+    status: mailStatus;
     sentAt: Date | null;
 }
 
 const MailDbSchema: Schema<MailDocument> = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: UserModel,
-        required: [true, "Ref of user is required"],
-        default: null
+        ref: "UserModel",
+        required: [true, "Ref of user is required"]
     },
     recipient: {
         type: String,
-        required: [true, "Recipient is rquired"]
+        required: [true, "Recipient is required"]
     },
     subject: {
         type: String,
@@ -28,9 +36,11 @@ const MailDbSchema: Schema<MailDocument> = new Schema({
     template: {
         type: String
     },
-    // status: {
-    //     type: enum
-    // },
+    status: {
+        type: String,
+        enum: Object.values(mailStatus),
+        default: mailStatus.PENDING
+    },
     sentAt: {
         type: Date,
         default: null

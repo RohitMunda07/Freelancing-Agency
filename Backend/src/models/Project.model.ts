@@ -1,5 +1,4 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { UserModel } from "./user.model";
 
 export enum projectStatus {
     STARTED = "started",
@@ -8,30 +7,30 @@ export enum projectStatus {
     COMPLETED = "completed",
     DELIVERED = "delivered"
 }
+
 export interface ProjectDocument extends Document {
     user: mongoose.Types.ObjectId;
     name: string;
     stack: string;
     status: projectStatus;
     progress: number;
-    dueDate: Date;
+    dueDate: Date | null;
 }
 
 const ProjectDbSchema: Schema<ProjectDocument> = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: UserModel,
-        required: [true, "Ref of user is required"],
-        default: null
+        ref: "UserModel",
+        required: [true, "Ref of user is required"]
     },
     name: {
         type: String,
         trim: true,
-        required: [true, "Project name is rquired"]
+        required: [true, "Project name is required"]
     },
     stack: {
         type: String,
-        // check this 
+        required: [true, "Stack is required"]
     },
     status: {
         type: String,
@@ -40,6 +39,8 @@ const ProjectDbSchema: Schema<ProjectDocument> = new Schema({
     },
     progress: {
         type: Number,
+        min: 0,
+        max: 100,
         default: 0
     },
     dueDate: {

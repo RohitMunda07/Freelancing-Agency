@@ -1,4 +1,7 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, ObjectId } from "mongoose";
+import { UserModel } from "./user.model";
+import { TransactionModel } from "./Payment.model";
+import { ProjectModel } from "./Project.model";
 
 export enum invoiceStatus {
     PENDING = "pending",
@@ -6,41 +9,42 @@ export enum invoiceStatus {
     FAILED = "failed"
 }
 
-export interface InvoiceDocument extends Document {
-    user: mongoose.Types.ObjectId;
-    project: mongoose.Types.ObjectId;
-    payment: mongoose.Types.ObjectId | null;
+interface InvoiceDocument extends Document {
+    user: mongoose.Types.ObjectId | null;
+    project: mongoose.ObjectId | null;
+    payment: mongoose.ObjectId | null;
     invoiceNumber: string;
     subtotal: number;
     tax: number;
     total: number;
     status: invoiceStatus;
-    pdfUrl?: string;
+    pdfUrl: string;
     dueDate: Date | null;
 }
 
 const InvoiceDbSchema: Schema<InvoiceDocument> = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: "UserModel",
-        required: [true, "Ref of user is required"]
+        ref: UserModel,
+        required: [true, "Ref of user is required"],
+        default: null
     },
     project: {
         type: Schema.Types.ObjectId,
-        ref: "ProjectModel",
-        required: [true, "Project ref is required"]
+        ref: ProjectModel,
+        required: [true, "Project ref is required"],
+        default: null
     },
     payment: {
-        // was `types:` (typo) — Mongoose didn't recognize the key, so this
-        // field silently wasn't behaving as an ObjectId ref before.
-        type: Schema.Types.ObjectId,
-        ref: "TransactionModel"
-        // no `required` — an invoice can exist (draft/sent) before it's paid
+        types: Schema.Types.ObjectId,
+        ref: TransactionModel,
+        required: [true, "Payment ref is required"],
+        default: null
     },
     invoiceNumber: {
         type: String,
         required: [true, "Invoice Number is required"],
-        unique: true
+        default: ""
     },
     subtotal: {
         type: Number,
@@ -49,6 +53,7 @@ const InvoiceDbSchema: Schema<InvoiceDocument> = new Schema({
     },
     tax: {
         type: Number,
+        required: [true, "Tax is required"],
         default: 0
     },
     total: {
@@ -62,13 +67,16 @@ const InvoiceDbSchema: Schema<InvoiceDocument> = new Schema({
         default: invoiceStatus.PENDING
     },
     pdfUrl: {
-        type: String
-        // no longer required — PDF is generated after the invoice exists
+        type: String,
+        required: [true, "PDF URL is required"],
+        default: ""
     },
     dueDate: {
         type: Date,
+        required: [true, "Due Date is required"],
         default: null
     },
+
 }, { timestamps: true })
 
 export const InvoiceModel = mongoose.model<InvoiceDocument>(
