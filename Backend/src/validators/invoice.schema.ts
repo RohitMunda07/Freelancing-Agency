@@ -1,10 +1,16 @@
 // ============================= Used to validate invoice details =============================
 
 import z from "zod"
+import { invoiceStatus } from "../models/Invoice.model.js"
+import items from "razorpay/dist/types/items.js";
 
 const objectIdRegex = /^[0-9a-fA-F]{24}$/;
 
-const InvoiceStatusEnum = z.enum(["pending", "paid", "failed"])
+// Derived from the model's actual TS enum — see project.schema.ts for why.
+// Note: `invoiceStatus` lives in TransactionModel.ts, which is the file
+// that actually defines your Invoice model (the naming mismatch flagged
+// earlier — worth a rename pass whenever you touch this file next).
+const InvoiceStatusEnum = z.nativeEnum(invoiceStatus)
 
 const InvoiceZodSchema = z.object({
     user: z
@@ -21,6 +27,24 @@ const InvoiceZodSchema = z.object({
         .regex(objectIdRegex, "Invalid Payment ID")
         .optional(),
 
+    items: z
+        .array(
+            z.object({
+                description: z
+                    .string()
+                    .trim()
+                    .optional(),
+                quantity: z
+                    .number()
+                    .nonnegative(),
+                unitPrice: z
+                    .number()
+                    .nonnegative(),
+                lineTotal: z
+                    .number()
+                    .nonnegative(),
+            })
+        ),
     invoiceNumber: z
         .string()
         .trim()
@@ -30,7 +54,7 @@ const InvoiceZodSchema = z.object({
     tax: z.number().nonnegative().default(0),
     total: z.number().nonnegative(),
 
-    status: InvoiceStatusEnum.default("pending"),
+    status: InvoiceStatusEnum.default(invoiceStatus.PENDING),
 
     pdfUrl: z.string().url().optional(),
 

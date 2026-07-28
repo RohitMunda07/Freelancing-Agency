@@ -1,8 +1,9 @@
-import { asyncHandler, ApiError, ApiResponse } from "../utils/modules.js";
-import { UserModel } from "../models/User.model";
+import { UserModel } from "../models/User.model.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import ApiResponse from "../utils/apiResponse.js";
+import ApiError from "../utils/apiError.js";
 import { UserZodSchema, LoginZodSchema, PasswordChangeSchema } from "../validators/user.schema.js"
 import jwt from "jsonwebtoken"
-import type { Request } from "express";
 
 // declared accessTokenOptions & refreshTokenOptions globally for usage in every needed scenario
 // maxAge is used for longer mortality of tokens. now the cookie won't die when browser closes. (Sufficient for users)
@@ -23,7 +24,7 @@ const refreshTokenOptions = {
 
 const generateAccessAndRefreshTokens = async (userId: string) => {
 
-    // Initially, used to authorize user 
+    // Initially, used to authorize user
     // renew tokens for longer duration
 
     try {
@@ -44,63 +45,57 @@ const generateAccessAndRefreshTokens = async (userId: string) => {
     }
 }
 
+// POST /users/register
 const registerUser = asyncHandler(async (req, res) => {
 
     // get user details from frontend
     // validation by required property - should not be empty
-    // check if user exists or not: email
+    // check if user exists or not: email / phone / username
     // create user object & entries in database
     // remove password & refreshToken field from response
-    // validate user creation or entries
     // return response
 
-    // This is the perfect use of validators (here user.validator.ts)
-    // safeParse returns a clean result object unlike parse, which throws an ugly error if validation fail 
     const parsed = UserZodSchema.safeParse(req.body)
 
     if (!parsed.success) {
-
-        // parsed.error?.issues[0]?.message shows the first validation error message when something fails.
         throw new ApiError(400, parsed.error?.issues[0]?.message || "Validation failed", [], "")
     }
 
-    const { email, phone } = parsed.data
+    const { email, phone, username } = parsed.data
 
+    // Checks email/phone AND username — username is unique on the model
+    // too, so a duplicate username used to skip this clean check entirely
+    // and crash into a raw MongoDB E11000 error instead of a friendly 409.
     const existedUser = await UserModel.findOne({
-        $or: [{ email }, { phone }]
+        $or: [{ email }, { phone }, { username }]
     })
 
     if (existedUser) {
-        throw new ApiError(409, "User with email or phone number already exists", [], "")
+        throw new ApiError(409, "User with email, phone, or username already exists", [], "")
     }
 
     const filteredData = Object.fromEntries(
-
-        // Object.entries convert data into pair of keys & values.
-        // here, _ = key 
-        // value will be filtered out (accessed) when the value is not undefined basically.
-        // Object.fromEntries converts the data into object then.
         Object.entries(parsed.data).filter(([_, value]) => value !== undefined)
     )
 
     const createdUser = await UserModel.create(filteredData)
 
-    // password & refreshToken is stored in _ (which is known as throwaway variable)
-    // Everything goes inside userResponse by destructuring concept
-    const { password: _, refreshToken: __, ...userResponse } = createdUser.toObject()
-
-    if (!createdUser) {
-        throw new ApiError(500, "Something went wrong while user registration", [], "")
-    }
+    // .create() throws on failure rather than resolving falsy, so a
+    // post-hoc `if (!createdUser)` check here would be unreachable dead
+    // code. The model's own toJSON/toObject transform already strips
+    // password/refreshToken/emailVerificationToken/resetPasswordOTP/
+    // resetPasswordOTPExpiry, so no manual destructuring is needed either.
+    const userResponse = createdUser.toObject()
 
     return res
         .status(201)
         .json(
-            new ApiResponse(201, userResponse, "User registration successfully")
+            new ApiResponse(201, userResponse, "User registered successfully")
         )
 
 })
 
+// POST /users/login
 const loginUser = asyncHandler(async (req, res) => {
 
     // req body -> data
@@ -110,24 +105,24 @@ const loginUser = asyncHandler(async (req, res) => {
     // access and refresh token
     // send cookie
 
-    // Validate req.body with Zod initially
     const parsed = LoginZodSchema.safeParse(req.body)
 
     if (!parsed.success) {
         throw new ApiError(400, parsed.error.issues[0]?.message || "Validation failed", [], "")
     }
 
-    // Using parsed.data instead of req.body
     const { email, phone, password } = parsed.data
 
-    // the orConditions will help in including specific fields that exist
     const orConditions = []
     if (email) orConditions.push({ email })
     if (phone) orConditions.push({ phone })
 
+    // `password` has `select: false` on the model — without explicitly
+    // re-selecting it here, `user.password` is undefined and
+    // isPasswordCorrect() below fails for every login attempt, valid or not.
     const user = await UserModel.findOne({
         $or: orConditions
-    })
+    }).select("+password")
 
     if (!user) {
         throw new ApiError(401, "Invalid credentials", [], "")
@@ -158,6 +153,7 @@ const loginUser = asyncHandler(async (req, res) => {
         )
 })
 
+// POST /users/logout
 const logoutUser = asyncHandler(async (req, res) => {
 
     // $unset: {refreshToken} is used to remove the field from document
@@ -185,6 +181,7 @@ const logoutUser = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, {}, "User logged out successfully"))
 })
 
+// POST /users/refresh-token
 const refreshAccessToken = asyncHandler(async (req, res) => {
 
     // validation for refreshToken before expiry
@@ -200,7 +197,10 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
             process.env.REFRESH_TOKEN_SECRET as string
         ) as jwt.JwtPayload
 
-        const user = await UserModel.findById(decodedToken?._id)
+        // `refreshToken` has `select: false` too — same bug as password
+        // above. Without this, user.refreshToken is always undefined, so
+        // the comparison below rejects every valid refresh token.
+        const user = await UserModel.findById(decodedToken?._id).select("+refreshToken")
 
         if (!user) {
             throw new ApiError(401, "Invalid Refresh Token", [], "")
@@ -224,10 +224,15 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
                 )
             )
     } catch (error) {
+        // Preserve the original ApiError (status code + message) instead of
+        // flattening everything to a generic 401 — mirrors the pattern
+        // already used in generateAccessAndRefreshTokens above.
+        if (error instanceof ApiError) throw error
         throw new ApiError(401, (error as Error)?.message || "Invalid refresh token", [], "")
     }
 })
 
+// POST /users/change-password
 const changeCurrentPassword = asyncHandler(async (req, res) => {
 
     const parsed = PasswordChangeSchema.safeParse(req.body)
@@ -236,11 +241,11 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
         throw new ApiError(400, parsed.error.issues[0]?.message, [], "")
     }
 
-    // validation between old password and updated password
-
     const { oldPassword, newPassword } = parsed.data
 
-    const user = await UserModel.findById(req.user?._id)
+    // Same select: false issue as login — without this, isPasswordCorrect
+    // always fails and nobody can ever change their password.
+    const user = await UserModel.findById(req.user?._id).select("+password")
 
     if (!user) {
         throw new ApiError(404, "User not found", [], "")
@@ -267,6 +272,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, {}, "Password Changed Successfully"))
 })
 
+// GET /users/me
 const getCurrentUser = asyncHandler(async (req, res) => {
 
     // current user details for UI
@@ -275,23 +281,27 @@ const getCurrentUser = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, req.user, "Current user fetched successfully"))
 })
 
+// PATCH /users/me
 const updateAccountDetails = asyncHandler(async (req, res) => {
 
-    // updated account infomation for UI
-    const { fullname, email, phone } = req.body
+    // Was manual truthiness checks with no format validation — "not-an-email"
+    // used to sail straight through. Reuse the same field-level rules as
+    // registration instead of duplicating ad-hoc checks.
+    const parsed = UserZodSchema.pick({ fullname: true, email: true, phone: true }).safeParse(req.body)
 
-    if (!fullname || !email || !phone) {
-        throw new ApiError(400, "All fields are required")
+    if (!parsed.success) {
+        throw new ApiError(400, parsed.error.issues[0]?.message || "Validation failed", [], "")
     }
 
     if (!req.user) {
         throw new ApiError(401, "Unauthorized", [], "")
     }
 
+    const { fullname, email, phone } = parsed.data
+
+    // $ne excludes the current user from the duplicate check
     const existingUser = await UserModel.findOne({
         $or: [{ email }, { phone }],
-
-        // $ne refers to 'not equal', basically it excludes the specific user who wants to update his email
         _id: { $ne: req.user._id }
     })
 

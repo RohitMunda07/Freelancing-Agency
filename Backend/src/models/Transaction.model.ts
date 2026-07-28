@@ -1,85 +1,85 @@
-import mongoose, { Schema, Document, ObjectId } from "mongoose";
-import { UserModel } from "./User.model";
-import { TransactionModel } from "./Payment.model";
-import { ProjectModel } from "./Project.model";
+import mongoose, { Schema, Document } from "mongoose";
 
-export enum invoiceStatus {
+export enum transactionPaymentMode {
+    CARD = "card",
+    UPI = "upi",
+    ACCOUNT_PAYMENT = "account_payment"
+}
+
+export enum currencyType {
+    INR = "inr",
+    OTHERS = "others"
+}
+
+// Defined locally instead of importing invoiceStatus from TransactionModel.ts —
+// that import was the other half of the circular dependency, and Payment's
+// status shouldn't be borrowing Invoice's enum anyway (different lifecycles).
+export enum paymentStatus {
     PENDING = "pending",
-    PAID = "paid",
+    SUCCESS = "success",
     FAILED = "failed"
 }
 
-interface InvoiceDocument extends Document {
-    user: mongoose.Types.ObjectId | null;
-    project: mongoose.ObjectId | null;
-    payment: mongoose.ObjectId | null;
-    invoiceNumber: string;
-    subtotal: number;
-    tax: number;
-    total: number;
-    status: invoiceStatus;
-    pdfUrl: string;
-    dueDate: Date | null;
+export interface TransactionDocument extends Document {
+    user: mongoose.Types.ObjectId;
+    amount: number;
+    currency: currencyType;
+
+    razorpayOrderId: string;
+    razorpayPaymentId?: string;
+    razorpaySignature?: string;
+
+    paymentStatus: paymentStatus;
+    paidAt?: Date;
+
+    paymentMethod?: transactionPaymentMode;
+    paymentGatewayId?: string;
 }
 
-const InvoiceDbSchema: Schema<InvoiceDocument> = new Schema({
+const TransactionDbSchema: Schema<TransactionDocument> = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: UserModel,
-        required: [true, "Ref of user is required"],
-        default: null
+        ref: "UserModel", // string ref — no need to import the User model at all
+        required: [true, "Ref of user is required"]
     },
-    project: {
-        type: Schema.Types.ObjectId,
-        ref: ProjectModel,
-        required: [true, "Project ref is required"],
-        default: null
-    },
-    payment: {
-        types: Schema.Types.ObjectId,
-        ref: TransactionModel,
-        required: [true, "Payment ref is required"],
-        default: null
-    },
-    invoiceNumber: {
-        type: String,
-        required: [true, "Invoice Number is required"],
-        default: ""
-    },
-    subtotal: {
+    amount: {
         type: Number,
-        required: [true, "Subtotal is required"],
-        default: 0
+        required: [true, "Amount is required"]
     },
-    tax: {
-        type: Number,
-        required: [true, "Tax is required"],
-        default: 0
-    },
-    total: {
-        type: Number,
-        required: [true, "Total is required"],
-        default: 0
-    },
-    status: {
+    currency: {
         type: String,
-        enum: Object.values(invoiceStatus),
-        default: invoiceStatus.PENDING
-    },
-    pdfUrl: {
-        type: String,
-        required: [true, "PDF URL is required"],
-        default: ""
-    },
-    dueDate: {
-        type: Date,
-        required: [true, "Due Date is required"],
-        default: null
+        enum: Object.values(currencyType),
+        default: currencyType.INR
     },
 
+    razorpayOrderId: {
+        type: String,
+        required: [true, "RazorpayOrderId is required"]
+    },
+    // Only known once Razorpay confirms the payment — can't be required at creation
+    razorpayPaymentId: {
+        type: String
+    },
+    razorpaySignature: {
+        type: String
+    },
+
+    paymentMethod: {
+        type: String,
+        enum: Object.values(transactionPaymentMode)
+    },
+    paymentStatus: {
+        type: String,
+        enum: Object.values(paymentStatus),
+        default: paymentStatus.PENDING
+    },
+    paidAt: {
+        type: Date
+    },
+    paymentGatewayId: {
+        type: String
+    }
+    // removed `paymentUserId` — it duplicated `user` above, same ObjectId ref
 }, { timestamps: true })
 
-export const InvoiceModel = mongoose.model<InvoiceDocument>(
-    "InvoiceModel",
-    InvoiceDbSchema
-)
+export const TransactionModel = mongoose.model<TransactionDocument>("TransactionModel", TransactionDbSchema)

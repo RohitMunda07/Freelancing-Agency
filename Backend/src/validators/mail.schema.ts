@@ -1,10 +1,12 @@
 // ============================= Used to validate outbound mail records =============================
 
 import z from "zod"
+import { mailStatus } from "../models/Mail.model.js"
 
 const objectIdRegex = /^[0-9a-fA-F]{24}$/;
 
-const MailStatusEnum = z.enum(["pending", "sent", "failed"])
+// Derived from the model's actual TS enum — see project.schema.ts for why.
+const MailStatusEnum = z.nativeEnum(mailStatus)
 
 const MailZodSchema = z.object({
     user: z
@@ -27,7 +29,7 @@ const MailZodSchema = z.object({
         .min(1, "Template is required")
         .optional(),
 
-    status: MailStatusEnum.default("pending"),
+    status: MailStatusEnum.default(mailStatus.PENDING),
 
     sentAt: z.coerce.date().nullable().optional(),
 })

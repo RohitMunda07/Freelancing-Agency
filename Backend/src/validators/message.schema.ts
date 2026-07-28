@@ -1,8 +1,10 @@
 // ============================= Used to validate public contact-form submissions =============================
 
 import z from "zod"
+import { messageStatus } from "../models/ChatMessage.model.js"
 
-const MessageStatusEnum = z.enum(["new", "contacted", "converted", "closed"])
+// Derived from the model's actual TS enum — see project.schema.ts for why.
+const MessageStatusEnum = z.nativeEnum(messageStatus)
 
 const ChatMessageZodSchema = z.object({
     name: z
@@ -43,7 +45,7 @@ const ChatMessageZodSchema = z.object({
         .min(10, "Message should be at least 10 characters")
         .max(2000),
 
-    status: MessageStatusEnum.default("new"),
+    status: MessageStatusEnum.default(messageStatus.NEW),
 })
 
 // The public contact form itself should never let the submitter set `status`

@@ -10,12 +10,21 @@ export interface InvoiceDocument extends Document {
     user: mongoose.Types.ObjectId;
     project: mongoose.Types.ObjectId;
     payment: mongoose.Types.ObjectId | null;
+
+    items: {
+        description?: string;
+        quantity: number;
+        unitPrice: number;
+        lineTotal: number;
+    }[];
     invoiceNumber: string;
+
     subtotal: number;
     tax: number;
     total: number;
-    status: invoiceStatus;
     pdfUrl?: string;
+
+    status: invoiceStatus;
     dueDate: Date | null;
 }
 
@@ -36,6 +45,9 @@ const InvoiceDbSchema: Schema<InvoiceDocument> = new Schema({
         type: Schema.Types.ObjectId,
         ref: "TransactionModel"
         // no `required` — an invoice can exist (draft/sent) before it's paid
+    },
+    items: {
+        type: [{ type: String, required: [true, "Item is required"] }]
     },
     invoiceNumber: {
         type: String,

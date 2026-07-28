@@ -10,7 +10,7 @@ export enum reviewStatus {
 
 export interface FeedbackDocument extends Document {
     user: mongoose.Types.ObjectId;
-    project: mongoose.Types.ObjectId;
+    projectId: mongoose.Types.ObjectId;
     rating: number;
     comment: string;
     status: reviewStatus;
@@ -23,7 +23,7 @@ const FeedbackDbSchema: Schema<FeedbackDocument> = new Schema({
         ref: "UserModel",
         required: [true, "User ref is required"]
     },
-    project: {
+    projectId: {
         type: Schema.Types.ObjectId,
         ref: "ProjectModel",
         required: [true, "Project ref is required"]

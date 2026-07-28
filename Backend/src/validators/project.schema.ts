@@ -1,16 +1,17 @@
 // ============================= Used to validate project details =============================
 
 import z from "zod"
+import { projectStatus } from "../models/Project.model.js"
 
 const objectIdRegex = /^[0-9a-fA-F]{24}$/;
 
-const ProjectStatusEnum = z.enum([
-    "started",
-    "under_process",
-    "testing",
-    "completed",
-    "delivered",
-])
+// Was z.enum(["started", ...]) — a plain string-literal union. Mongoose's
+// ProjectDocument.status is typed as the `projectStatus` TS enum, which is
+// nominally typed: a matching string literal isn't assignable to it without
+// a cast. z.nativeEnum derives the Zod type from the same enum the model
+// uses, so parsed.data.status is actually typed `projectStatus`, and
+// ProjectModel.create(parsed.data) type-checks with no cast needed.
+const ProjectStatusEnum = z.nativeEnum(projectStatus)
 
 const ProjectZodSchema = z.object({
     user: z
@@ -28,7 +29,7 @@ const ProjectZodSchema = z.object({
         .trim()
         .min(1, "Stack is required"),
 
-    status: ProjectStatusEnum.default("started"),
+    status: ProjectStatusEnum.default(projectStatus.STARTED),
 
     progress: z
         .number()
