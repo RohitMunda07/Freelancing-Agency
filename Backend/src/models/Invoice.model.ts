@@ -6,27 +6,39 @@ export enum invoiceStatus {
     FAILED = "failed"
 }
 
+export interface InvoiceItem {
+    description: string;
+    quantity: number;
+    rate: number;
+    amount: number;
+}
+
 export interface InvoiceDocument extends Document {
     user: mongoose.Types.ObjectId;
     project: mongoose.Types.ObjectId;
     payment: mongoose.Types.ObjectId | null;
-
-    items: {
-        description?: string;
-        quantity: number;
-        unitPrice: number;
-        lineTotal: number;
-    }[];
     invoiceNumber: string;
-
+    // Was being validated in the controller but never actually stored
+    // anywhere — the model had no field for it, so items were silently
+    // dropped on every create.
+    items: InvoiceItem[];
     subtotal: number;
     tax: number;
     total: number;
-    pdfUrl?: string;
-
     status: invoiceStatus;
+    pdfUrl?: string;
     dueDate: Date | null;
 }
+
+const InvoiceItemSchema = new Schema<InvoiceItem>(
+    {
+        description: { type: String, required: true, trim: true },
+        quantity: { type: Number, default: 1 },
+        rate: { type: Number, required: true },
+        amount: { type: Number, required: true },
+    },
+    { _id: false }
+)
 
 const InvoiceDbSchema: Schema<InvoiceDocument> = new Schema({
     user: {
@@ -46,13 +58,14 @@ const InvoiceDbSchema: Schema<InvoiceDocument> = new Schema({
         ref: "TransactionModel"
         // no `required` — an invoice can exist (draft/sent) before it's paid
     },
-    items: {
-        type: [{ type: String, required: [true, "Item is required"] }]
-    },
     invoiceNumber: {
         type: String,
         required: [true, "Invoice Number is required"],
         unique: true
+    },
+    items: {
+        type: [InvoiceItemSchema],
+        default: []
     },
     subtotal: {
         type: Number,
