@@ -1,7 +1,7 @@
-import { MailModel } from "../models/Mail.model";
-import { asyncHandler } from "../utils/asyncHandler";
-import ApiResponse from "../utils/apiResponse";
-import ApiError from "../utils/apiError";
+import { MailModel } from "../models/Mail.model.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import ApiResponse from "../utils/apiResponse.js";
+import ApiError from "../utils/apiError.js";
 import mongoose from "mongoose";
 
 const getMails = asyncHandler(async (req, res) => {

@@ -1,13 +1,14 @@
-import "./env"; 
+import "./env";
 // import dotenv from "dotenv"
 // dotenv.config(
 //     { path: './.env' }
 // )
 
-import app from "./app"
-import connectDB from "./DB/connectdb"
-import ApiError from "./utils/apiError"
-import { transporter } from "./config/mail"
+import app from "./app.js"
+import connectDB from "./DB/connectdb.js"
+import ApiError from "./utils/apiError.js"
+import { transporter } from "./config/mail.js"
+import { sendEmail } from "./emails/Nodemailer/nodemailer.service.js";
 
 const startServer = async () => {
     try {
@@ -24,6 +25,15 @@ const startServer = async () => {
         await transporter.verify();
 
         console.log("SMTP Connected");
+
+        await sendEmail("rohit.dev14818@gmail.com", "SMTP Test",
+            `
+            <h1>Hello Rohit 👋</h1>
+        <p>Your Nodemailer setup is working successfully.</p>
+            `
+        );
+
+        console.log("Test email sent");
 
         app.listen(port, () => {
             console.log("Server is running on", port);

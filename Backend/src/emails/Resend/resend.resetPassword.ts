@@ -1,12 +1,12 @@
 // ── resetPasswordOTP.email.ts ───────────────────────
-import { asyncHandler } from "../../src/utils/asyncHandler.ts"
+import { asyncHandler } from "../../utils/asyncHandler.js"
 import dotenv from "dotenv"
 import { Resend } from "resend"
 import crypto from "crypto"
 import bcrypt from "bcrypt"
-import ApiError from "../../src/utils/apiError.ts"
-import ApiResponse from "../../src/utils/apiResponse.ts"
-import { UserModel } from "../../src/models/user.model.ts"
+import ApiError from "../../utils/apiError.js"
+import ApiResponse from "../../utils/apiResponse.js"
+import { UserModel } from "../../models/user.model.js"
 
 dotenv.config()
 

@@ -1,7 +1,7 @@
 // ============================= Used to validate invoice details =============================
 
 import z from "zod"
-import { invoiceStatus } from "../models/Invoice.model"
+import { invoiceStatus } from "../models/Invoice.model.js"
 
 const objectIdRegex = /^[0-9a-fA-F]{24}$/;
 

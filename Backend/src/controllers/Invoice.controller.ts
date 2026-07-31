@@ -1,10 +1,10 @@
-import { asyncHandler } from "../utils/asyncHandler"
-import ApiError from "../utils/apiError"
-import ApiResponse from "../utils/apiResponse"
-import { InvoiceModel } from "../models/Invoice.model"
+import { asyncHandler } from "../utils/asyncHandler.js"
+import ApiError from "../utils/apiError.js"
+import ApiResponse from "../utils/apiResponse.js"
+import { InvoiceModel } from "../models/Invoice.model.js"
 import mongoose from "mongoose"
-import { CreateInvoiceSchema, InvoiceZodSchema, UpdateInvoiceStatusSchema } from "../validators/invoice.schema"
-import { ProjectModel } from "../models/Project.model"
+import { CreateInvoiceSchema, InvoiceZodSchema, UpdateInvoiceStatusSchema } from "../validators/invoice.schema.js"
+import { ProjectModel } from "../models/Project.model.js"
 
 /**
  * Generates a unique invoice number.
