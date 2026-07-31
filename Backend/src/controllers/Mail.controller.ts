@@ -2,13 +2,17 @@ import { MailModel } from "../models/Mail.model";
 import { asyncHandler } from "../utils/asyncHandler";
 import ApiResponse from "../utils/apiResponse";
 import ApiError from "../utils/apiError";
-import { MailZodSchema } from "../validators/mail.schema";
 import mongoose from "mongoose";
 
 const getMails = asyncHandler(async (req, res) => {
+    if (!req.user) {
+        throw new ApiError(401, "Unauthorized", [], "")
+    }
+
     const filter = req.user?.role === 'admin' ? {} : { user: req.user?._id }
 
-    const emails = await MailModel.find(filter);
+    const emails = await MailModel.find(filter).sort({ createdAt: -1 });
+
     if (emails.length === 0) {
         throw new ApiError(404, "No Emails found")
     }
@@ -21,6 +25,10 @@ const getMails = asyncHandler(async (req, res) => {
 })
 
 const getMailById = asyncHandler(async (req, res) => {
+    if (!req.user) {
+        throw new ApiError(401, "Unauthorized", [], "")
+    }
+
     const { mail } = req.params as { mail: string }
     if (!mongoose.isValidObjectId(mail)) {
         throw new ApiError(400, "invalid mail Id")
@@ -40,10 +48,6 @@ const getMailById = asyncHandler(async (req, res) => {
         .json(
             new ApiResponse(200, existingMail, "Mail fetched successfully")
         )
-})
-
-const resendMail = asyncHandler(async (req, res) => {
-    
 })
 
 export {

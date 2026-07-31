@@ -1,20 +1,20 @@
-import mongoose from "mongoose"
 import { type Request } from "express"
+import { UserDocument } from "../models/User.model";
 
 // Express's Request object has fixed fields like body, cookies, headers etc., so basically I added a custom field 'user' which I declared globally
 
-declare global {
-    namespace Express {
-        interface Request {
-            user?: {
-                _id: mongoose.Types.ObjectId;
-                fullname: string;
-                email: string;
-                role: "user" | "artist" | "admin";
-            }
-        }
-    }
-}
+// declare global {
+//     namespace Express {
+//         interface Request {
+//             user?: {
+//                 _id: mongoose.Types.ObjectId;
+//                 fullname: string;
+//                 email: string;
+//                 role: "user" | "admin";
+//             }
+//         }
+//     }
+// }
 
 export type MulterRequest = Request & {
     file?: Express.Multer.File | undefined   // for single file upload

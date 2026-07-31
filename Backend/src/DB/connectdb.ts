@@ -11,8 +11,8 @@ const configureDnsServers = (): void => {
 };
 
 const connectDB = async (): Promise<void> => {
-    console.log("before db connection");
-    console.log(process.env.MONGODB_URI);
+    // console.log("before db connection");
+    // console.log(process.env.MONGODB_URI);
 
     configureDnsServers();
 
