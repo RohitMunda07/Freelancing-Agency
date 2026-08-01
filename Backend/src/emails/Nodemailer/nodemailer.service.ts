@@ -1,7 +1,10 @@
 import { transporter } from "../../config/mail.js";
+import { UserModel } from "../../models/User.model.js";
 import ApiError from "../../utils/apiError.js";
 import { asyncHandler } from "../../utils/asyncHandler.js"
-export async function sendEmail(
+import { generateOTP, saveOTP } from "../Resend/resend.resetPassword.js";
+
+async function sendEmail(
     to: string,
     subject: string,
     html: string
@@ -15,9 +18,6 @@ export async function sendEmail(
     });
 }
 
-const verifyEmail = asyncHandler(async (req, res) => {
-    if (!req.user) {
-        throw new ApiError(401, "Unauthorized", [], "")
-    }
-
-})
+export {
+    sendEmail,
+}

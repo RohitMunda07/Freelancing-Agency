@@ -33,14 +33,3 @@ export const verifyAdmin = asyncHandler(async (req, res, next) => {
     }
     next()
 })
-
-export const verifyArtist = asyncHandler(async (req, res, next) => {
-    if (!req.user) {
-        throw new ApiError(401, "Unauthorized Request", [], "")
-    }
-
-    if (req.user.role !== "artist") {
-        throw new ApiError(403, "Access denied. Artists only.", [], "")
-    }
-    next()
-})

@@ -6,7 +6,7 @@ import crypto from "crypto"
 import bcrypt from "bcrypt"
 import ApiError from "../../utils/apiError.js"
 import ApiResponse from "../../utils/apiResponse.js"
-import { UserModel } from "../../models/user.model.js"
+import { UserModel } from "../../models/User.model.js"
 
 dotenv.config()
 
@@ -198,5 +198,6 @@ export {
     resendOTP,    
     verifyOTP,
     resetPassword,
-    generateOTP
+    generateOTP,
+    saveOTP
 }
