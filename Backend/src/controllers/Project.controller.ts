@@ -3,7 +3,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiResponse from "../utils/apiResponse.js";
 import ApiError from "../utils/apiError.js";
 import mongoose from "mongoose";
-import { ProjectZodSchema, ProjectUpdateSchema } from "../validators/project.schema.js";
+import { ProjectZodSchema, ProjectUpdateSchema, ProjectStatusEnum, ToggleMilestoneSchema } from "../validators/project.schema.js";
 
 // Projects are created and managed by the agency (admin) on behalf of a
 // client. A client can only ever read their own projects — never create,
@@ -148,10 +148,75 @@ const deleteProject = asyncHandler(async (req, res) => {
         )
 })
 
+// PATCH /projects/:id/milestones/:milestoneId — admin only.
+// Was validating req.body against ProjectStatusEnum (a single status
+// string, unrelated to a milestone payload) and then overwriting the
+// entire `milestones` array with that string — neither step could ever
+// succeed. This targets exactly one milestone subdocument by its own _id
+// using Mongoose's positional `$` operator, sets/clears `completedAt` to
+// match the new `done` state, and recomputes `progress` from the resulting
+// done-count so the two never drift apart.
+const toggleMilestone = asyncHandler(async (req, res) => {
+
+    if (req.user?.role !== "admin") {
+        throw new ApiError(403, "Only an admin can update a project", [], "")
+    }
+
+    const { id, milestoneId } = req.params as { id: string; milestoneId: string }
+
+    if (!mongoose.isValidObjectId(id)) {
+        throw new ApiError(400, "Invalid Project Id", [], "")
+    }
+
+    if (!mongoose.isValidObjectId(milestoneId)) {
+        throw new ApiError(400, "Invalid Milestone Id", [], "")
+    }
+
+    const parsed = ToggleMilestoneSchema.safeParse(req.body)
+    if (!parsed.success) {
+        throw new ApiError(400, parsed.error.issues[0]?.message || "Validation failed", [], "")
+    }
+
+    const { done } = parsed.data
+
+    // The positional `$` operator updates whichever array element matched
+    // the `"milestones._id": milestoneId` condition in the query — that's
+    // what lets this touch one milestone without resending the whole array.
+    const project = await ProjectModel.findOneAndUpdate(
+        { _id: id, "milestones._id": milestoneId },
+        {
+            $set: {
+                "milestones.$.done": done,
+                "milestones.$.completedAt": done ? new Date() : null,
+            },
+        },
+        { new: true, runValidators: true }
+    )
+
+    if (!project) {
+        throw new ApiError(404, "Project or milestone not found", [], "")
+    }
+
+    // Derive progress from the milestone checklist rather than trusting it
+    // to be kept in sync by hand elsewhere.
+    const doneCount = project.milestones.filter((m) => m.done).length
+    const totalCount = project.milestones.length
+
+    if (totalCount > 0) {
+        project.progress = Math.round((doneCount / totalCount) * 100)
+        await project.save({ validateBeforeSave: false })
+    }
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, project, "Milestone updated successfully"))
+})
+
 export {
     createProject,
     getProjects,
     getProjectById,
     updateProject,
     deleteProject,
+    toggleMilestone
 }

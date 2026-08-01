@@ -13,6 +13,14 @@ const objectIdRegex = /^[0-9a-fA-F]{24}$/;
 // ProjectModel.create(parsed.data) type-checks with no cast needed.
 const ProjectStatusEnum = z.nativeEnum(projectStatus)
 
+// A milestone as accepted from the client — `done` and `completedAt` are
+// left out here on purpose. A newly-created milestone should always start
+// not-done; forcing it through toggleMilestone (below) keeps `completedAt`
+// consistent instead of letting it be set arbitrarily at creation time.
+const MilestoneInputSchema = z.object({
+    label: z.string().trim().min(1, "Milestone label is required").max(200),
+})
+
 const ProjectZodSchema = z.object({
     user: z
         .string()
@@ -38,6 +46,13 @@ const ProjectZodSchema = z.object({
         .default(0),
 
     dueDate: z.coerce.date().nullable().optional(),
+
+    // Optional — lets an admin seed the checklist at creation time. Bulk
+    // replace later happens through the same field via ProjectUpdateSchema;
+    // flipping a single item's `done` state happens through
+    // ToggleMilestoneSchema below instead, which is a narrower, safer
+    // operation than resending the whole array.
+    milestones: z.array(MilestoneInputSchema).optional().default([]),
 })
 
 // For PATCH requests — every field optional, but at least one must actually be sent
@@ -46,7 +61,16 @@ const ProjectUpdateSchema = ProjectZodSchema.partial().refine(
     { message: "At least one field is required to update" }
 )
 
-export { ProjectZodSchema, ProjectUpdateSchema, ProjectStatusEnum }
+// PATCH /projects/:id/milestones/:milestoneId — body is just the new done
+// state. Deliberately NOT a "toggle with no body" endpoint: an idempotent
+// explicit `done` value means a retried/duplicated request can't
+// accidentally flip a milestone back off.
+const ToggleMilestoneSchema = z.object({
+    done: z.boolean(),
+})
+
+export { ProjectZodSchema, ProjectUpdateSchema, ProjectStatusEnum, MilestoneInputSchema, ToggleMilestoneSchema }
 
 export type ProjectInput = z.infer<typeof ProjectZodSchema>;
 export type ProjectUpdateInput = z.infer<typeof ProjectUpdateSchema>;
+export type ToggleMilestoneInput = z.infer<typeof ToggleMilestoneSchema>;
