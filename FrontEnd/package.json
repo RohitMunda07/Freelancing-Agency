@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.13.5",
     "gsap": "^3.12.5",
     "lenis": "^1.1.13",
     "lucide-react": "^0.383.0",

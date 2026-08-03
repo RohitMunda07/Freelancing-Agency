@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Menu, X, LogIn } from "lucide-react";
 import Button from "../ui/Button.jsx";
 import ThemeToggle from "../ui/ThemeToggle.jsx";
+import { GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
+
 
 const LINKS = ["Services", "Process", "Work", "Reviews", "Contact"];
 
@@ -12,6 +15,19 @@ export default function Nav({ onLogin }) {
     setOpen(false);
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
+
+  const googleLogin = useGoogleLogin({
+    flow: "implicit",
+
+    onSuccess: async (tokenResponse) => {
+      console.log(tokenResponse);
+    },
+
+    onError: () => {
+      console.log("Login Failed");
+    },
+  });
+
 
   return (
     <div className="border-b border-border sticky top-0 bg-ink/95 backdrop-blur z-20">
@@ -38,6 +54,10 @@ export default function Nav({ onLogin }) {
           <ThemeToggle />
           <Button variant="secondary" icon={LogIn} onClick={onLogin} className="!px-4 !py-2">
             Client Login
+          </Button>
+
+          <Button onClick={() => googleLogin()}>
+            Continue with Google
           </Button>
         </div>
 
@@ -72,6 +92,19 @@ export default function Nav({ onLogin }) {
           ))}
           <Button variant="secondary" icon={LogIn} onClick={() => { setOpen(false); onLogin(); }} className="justify-center">
             Client Login
+          </Button>
+
+          {/* <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              console.log(credentialResponse);
+            }}
+            onError={() => {
+              console.log("Login Failed");
+            }}
+          /> */}
+
+          <Button onClick={() => googleLogin()}>
+            Continue with Google
           </Button>
         </div>
       )}
