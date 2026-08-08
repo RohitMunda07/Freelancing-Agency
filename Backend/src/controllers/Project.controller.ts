@@ -88,6 +88,7 @@ const getProjectById = asyncHandler(async (req, res) => {
 
 // PATCH /projects/:id — admin only (status, progress, dueDate, etc.)
 const updateProject = asyncHandler(async (req, res) => {
+    console.log(req.user);
 
     if (req.user?.role !== "admin") {
         throw new ApiError(403, "Only an admin can update a project", [], "")
@@ -112,7 +113,7 @@ const updateProject = asyncHandler(async (req, res) => {
     )
 
     if (!project) {
-        throw new ApiError(404, "Project not found", [], "")
+        throw new ApiError(404, "Project not found this is the error", [], "")
     }
 
     return res

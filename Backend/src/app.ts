@@ -10,7 +10,7 @@ app.use(cors({
 }))
 app.use(express.urlencoded({ limit: "20kb", extended: true }))
 app.use(express.static("public"))
-app.use(express.json({ limit: "20kb" }))
+app.use(express.json({ limit: "20kb"}))
 app.use(cookieParser())
 
 // ------- routes import -------
@@ -23,12 +23,12 @@ import {
     feedbackRouter
 } from "./routes/routes.js"
 
-app.use("api/v1/user", userRoute)
-app.use("api/v1/payment", paymentRoute)
-app.use("api/v1/project", projectRoute)
-app.use("api/v1/mail", mailRouter)
-app.use("api/v1/invoice", invoiceRouter)
-app.use("api/v1/feedback", feedbackRouter)
+app.use("/api/v1/user", userRoute)
+app.use("/api/v1/project", projectRoute)
+app.use("/api/v1/payment", paymentRoute)
+app.use("/api/v1/mail", mailRouter)
+app.use("/api/v1/invoice", invoiceRouter)
+app.use("/api/v1/feedback", feedbackRouter)
 
 
 

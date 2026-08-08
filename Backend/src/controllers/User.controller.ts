@@ -54,7 +54,7 @@ const registerUser = asyncHandler(async (req, res) => {
     // create user object & entries in database
     // remove password & refreshToken field from response
     // return response
-
+    console.log(req.body)
     const parsed = UserZodSchema.safeParse(req.body)
 
     if (!parsed.success) {
@@ -90,7 +90,11 @@ const registerUser = asyncHandler(async (req, res) => {
     return res
         .status(201)
         .json(
-            new ApiResponse(201, userResponse, "User registered successfully")
+            new ApiResponse(
+                201,
+                userResponse,
+                "User registered successfully"
+            )
         )
 
 })

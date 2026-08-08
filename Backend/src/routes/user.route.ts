@@ -13,11 +13,11 @@ import {
 const router = Router()
 
 router.route("/users/register").post(registerUser)
-router.route("/users/loginr").post(loginUser)
-router.route("/users/logoutr").post(verifyJWT, logoutUser)
+router.route("/users/login").post(loginUser)
+router.route("/users/logout").post(verifyJWT, logoutUser)
 
 router.route("/users/refresh-token").post(refreshAccessToken)
-router.route(" /users/change-password").post(verifyJWT, changeCurrentPassword)
+router.route("/users/change-password").post(verifyJWT, changeCurrentPassword)
 router.route("/users/me").get(verifyJWT, getCurrentUser)
 router.route("/users/me").patch(verifyJWT, updateAccountDetails)
 

@@ -216,11 +216,11 @@ const UserDbSchema = new Schema<UserDocument>(
 /*                                  INDEXES                                   */
 /* -------------------------------------------------------------------------- */
 
-UserDbSchema.index({ email: 1 });
+// UserDbSchema.index({ email: 1 });
 
-UserDbSchema.index({ username: 1 });
+// UserDbSchema.index({ username: 1 });
 
-UserDbSchema.index({ phone: 1 });
+// UserDbSchema.index({ phone: 1 });
 
 UserDbSchema.index({
     fullname: "text",
