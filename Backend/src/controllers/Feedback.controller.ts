@@ -178,7 +178,7 @@ const moderateReview = asyncHandler(async (req, res) => {
     const feedback = await FeedbackModel.findByIdAndUpdate(
         id,
         { $set: parsed.data },
-        { new: true, runValidators: true }
+        { returnDocument: "after", runValidators: true }
     )
 
     if (!feedback) {

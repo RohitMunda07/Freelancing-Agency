@@ -331,6 +331,24 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 
 })
 
+// GET /users
+const getAllUsers = asyncHandler(async (req, res) => {
+    if (!req.user) {
+        throw new ApiError(403, "Unauthorized Request", [], "")
+    }
+
+    const users = await UserModel.find().sort({ createdAt: -1 })
+
+    if (users.length === 0) {
+        throw new ApiError(400, "No users found", [], "")
+    }
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(200, users, "Fetch all all the users successfully")
+        )
+})
 export {
     registerUser,
     loginUser,
@@ -339,4 +357,5 @@ export {
     changeCurrentPassword,
     getCurrentUser,
     updateAccountDetails,
+    getAllUsers
 }

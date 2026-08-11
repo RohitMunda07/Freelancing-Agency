@@ -11,9 +11,9 @@ import {
 const router = Router()
 
 router.route("/invoices").post(verifyJWT, createInvoice)
-router.route("/incoices/:id").get(verifyJWT, getInvoiceById)
+router.route("/invoices/:invoiceId").get(verifyJWT, getInvoiceById)
 router.route("/invoices").get(verifyJWT, getInvoices)
-router.route("/invoices").patch(verifyJWT, updateInvoiceStatus)
-router.route("/invoices").delete(verifyJWT, deleteInvoice)
+router.route("/invoices/:invoiceId").patch(verifyJWT, updateInvoiceStatus)
+router.route("/invoices/:invoiceId").delete(verifyJWT, deleteInvoice)
 
 export default router

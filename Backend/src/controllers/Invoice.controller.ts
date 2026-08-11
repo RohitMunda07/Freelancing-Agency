@@ -146,6 +146,8 @@ const updateInvoiceStatus = asyncHandler(async (req, res) => {
     }
 
     const { invoiceId } = req.params as { invoiceId: string };
+    console.log(invoiceId);
+
     if (!mongoose.Types.ObjectId.isValid(invoiceId)) {
         throw new ApiError(400, "Invalid Invoice Id")
     }
@@ -159,12 +161,18 @@ const updateInvoiceStatus = asyncHandler(async (req, res) => {
     const existingInvoice = await InvoiceModel.findByIdAndUpdate(
         invoiceId,
         { $set: { status: parsed.data.status } },
-        { new: true, runValidators: true }
+        { returnDocument: "after", runValidators: true }
     );
 
     if (!existingInvoice) {
         throw new ApiError(404, "No Invoice Found")
     }
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(200, existingInvoice, "Invoice Updated Successfully")
+        )
 
 })
 
