@@ -51,8 +51,6 @@ const updateStatus = asyncHandler(async (req, res) => {
     if (!mongoose.isValidObjectId(messageId)) {
         throw new ApiError(400, "Invalid Message Id", [], "")
     }
-    console.log(req.params);
-    console.log(req.body);
 
     const parsed = UpdateMessageStatusSchema.safeParse(req.body);
     if (!parsed.success) {
