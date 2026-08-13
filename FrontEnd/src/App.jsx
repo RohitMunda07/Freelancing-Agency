@@ -96,7 +96,6 @@ function AppContent() {
           path="/checkout"
           element={<RazorpayCheckout />}
         />
-
       </Routes>
 
     </ThemeProvider>

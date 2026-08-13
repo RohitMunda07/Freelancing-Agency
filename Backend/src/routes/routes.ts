@@ -4,6 +4,7 @@ import projectRoute from "./project.route.js"
 import mailRouter from "./mail.route.js"
 import invoiceRouter from "./invoice.router.js"
 import feedbackRouter from "./feedback.router.js"
+import chatMessageRouter from "./chatMessage.route.js"
 
 export {
     userRoute,
@@ -11,5 +12,6 @@ export {
     projectRoute,
     mailRouter,
     invoiceRouter,
-    feedbackRouter
+    feedbackRouter,
+    chatMessageRouter
 }

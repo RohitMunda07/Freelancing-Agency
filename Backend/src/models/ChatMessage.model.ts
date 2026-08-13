@@ -1,7 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-// Was declared in the interface (`status: string`) but never added to the
-// schema — TypeScript thought it existed, MongoDB never actually stored it.
 export enum messageStatus {
     NEW = "new",
     CONTACTED = "contacted",
@@ -9,14 +7,20 @@ export enum messageStatus {
     CLOSED = "closed"
 }
 
+export enum messageType {
+    QUICK = "quick",
+    PROJECT = "project"
+}
+
 interface ChatMessageDocument extends Document {
     name: string;
     email: string;
-    phone: string;
-    subject: string;
-    service: string;
-    budget: string;
+    phone?: string;
+    subject?: string;
+    service?: string;
+    budget?: string;
     message: string;
+    type: messageType;
     status: messageStatus;
 }
 
@@ -38,27 +42,23 @@ const ChatMessageDbSchema: Schema<ChatMessageDocument> = new Schema({
 
     phone: {
         type: String,
-        required: [true, "Phone No. is required"]
-        // `unique` removed — this is a public lead-capture form. The same
-        // person legitimately submitting a second inquiry would previously
-        // have hit a duplicate-key error here.
+        trim: true
     },
 
     subject: {
         type: String,
         trim: true,
-        index: true,
-        required: [true, "Subject is required"],
+        index: true
     },
 
     service: {
         type: String,
-        required: [true, "Service is required"],
+        trim: true
     },
 
     budget: {
         type: String,
-        default: "",
+        default: ""
     },
 
     message: {
@@ -67,12 +67,22 @@ const ChatMessageDbSchema: Schema<ChatMessageDocument> = new Schema({
         required: [true, "Message is required"]
     },
 
+    type: {
+        type: String,
+        enum: Object.values(messageType),
+        required: true,
+        default: messageType.QUICK
+    },
+
     status: {
         type: String,
         enum: Object.values(messageStatus),
         default: messageStatus.NEW
     }
-}, { timestamps: true });
+
+}, {
+    timestamps: true
+});
 
 export const ChatMessageModel = mongoose.model<ChatMessageDocument>(
     "ChatMessage",

@@ -1,12 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Mail, Github, Send, CheckCircle2 } from "lucide-react";
 import Button from "../ui/Button.jsx";
+import SendLoader from "../ui/SendLoader.jsx"
 
 const inputClass =
   "font-body text-sm text-offwhite bg-surfaceAlt border border-borderLight rounded-lg px-3.5 py-2.5 outline-none focus:border-teal transition-colors w-full";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
+  let isSending = false;
+  const [sendData, setSendData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  })
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target
+    e.preventDefault();
+    setSendData((prev) => ({
+      ...prev,
+      [name]: [value]
+    }))
+  }
+
+
+  const handleContactSend = () => {
+    // Api call
+    isSending = true
+    setSent(true)
+    console.log(sendData)
+    isSending = false
+  }
+
+  useEffect(() => {
+    if (sent) {
+      handleContactSend()
+    }
+  }, [sent])
 
   return (
     <div id="contact" className="max-w-6xl mx-auto px-6 pb-24 sm:pb-28">
@@ -30,13 +61,35 @@ export default function Contact() {
             <div className="flex items-center gap-2.5 text-teal font-body text-sm">
               <CheckCircle2 size={18} />
               Thanks — this is a prototype, so nothing was actually sent, but this is where the message would go.
+              {isSending ? <SendLoader /> : ""}
             </div>
+
           ) : (
             <>
-              <input className={inputClass} placeholder="Your name" />
-              <input className={inputClass} placeholder="Email" />
-              <textarea className={inputClass} placeholder="What are you building?" rows={4} />
-              <Button onClick={() => setSent(true)} icon={Send}>Send message</Button>
+              <input
+                className={inputClass}
+                placeholder="Your name"
+                name="name"
+                onChange={handleOnChange} />
+
+              <input
+                className={inputClass}
+                placeholder="Email"
+                name="email"
+                onChange={handleOnChange} />
+
+              <textarea
+                className={inputClass}
+                placeholder="What are you building?"
+                rows={4}
+                name="message"
+                onChange={handleOnChange} />
+
+              <Button
+                onClick={handleContactSend}
+                icon={Send}>
+                Send message
+              </Button>
             </>
           )}
         </div>

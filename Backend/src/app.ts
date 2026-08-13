@@ -20,7 +20,8 @@ import {
     projectRoute,
     mailRouter,
     invoiceRouter,
-    feedbackRouter
+    feedbackRouter,
+    chatMessageRouter
 } from "./routes/routes.js"
 
 app.use("/api/v1/user", userRoute)
@@ -29,6 +30,7 @@ app.use("/api/v1/payment", paymentRoute)
 app.use("/api/v1/mail", mailRouter)
 app.use("/api/v1/invoice", invoiceRouter)
 app.use("/api/v1/review", feedbackRouter)
+app.use("/api/v1/chat", chatMessageRouter)
 
 
 

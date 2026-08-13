@@ -52,7 +52,7 @@ export default function Nav({ onLogin }) {
             </a>
           ))}
           <ThemeToggle />
-          <Button variant="secondary" icon={LogIn} onClick={onLogin} className="!px-4 !py-2">
+          <Button type='submit' variant="secondary" icon={LogIn} onClick={onLogin} className="!px-4 !py-2">
             Client Login
           </Button>
 
