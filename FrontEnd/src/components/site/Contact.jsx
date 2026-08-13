@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Mail, Github, Send, CheckCircle2 } from "lucide-react";
 import Button from "../ui/Button.jsx";
 import SendLoader from "../ui/SendLoader.jsx"
+import { post } from "../../axios/axios.js"
 
 const inputClass =
   "font-body text-sm text-offwhite bg-surfaceAlt border border-borderLight rounded-lg px-3.5 py-2.5 outline-none focus:border-teal transition-colors w-full";
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
-  let isSending = false;
+  const [isSending, setIsSending] = useState(false);
+
   const [sendData, setSendData] = useState({
     name: "",
     email: "",
@@ -17,27 +19,35 @@ export default function Contact() {
 
   const handleOnChange = (e) => {
     const { name, value } = e.target
-    e.preventDefault();
     setSendData((prev) => ({
       ...prev,
-      [name]: [value]
+      [name]: value
     }))
   }
 
-
-  const handleContactSend = () => {
+  const handleContactSend = async () => {
     // Api call
-    isSending = true
-    setSent(true)
-    console.log(sendData)
-    isSending = false
-  }
+    setIsSending(true)
+    
+    console.log("Sending:", sendData);
 
-  useEffect(() => {
-    if (sent) {
-      handleContactSend()
+    try {
+      const response = await post(
+        "/chat/messages/quick-message",
+        sendData
+      )
+
+      console.log(response.data);
+
+      setSent(true);
+
+    } catch (error) {
+      console.log(error.response?.message || "Error sending the message");
+
+    } finally {
+      setIsSending(false);
     }
-  }, [sent])
+  }
 
   return (
     <div id="contact" className="max-w-6xl mx-auto px-6 pb-24 sm:pb-28">
