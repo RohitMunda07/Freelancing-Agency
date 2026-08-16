@@ -6,3 +6,4 @@ read this -> router.post("/payments/webhook", express.raw({ type: "application/j
 
 review your routes from claude
 complete Notification controller for notificaitions
+implement universal loader and error box

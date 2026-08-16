@@ -3,6 +3,7 @@ import { ArrowRight, Sparkles, Lightbulb } from "lucide-react";
 import Button from "../ui/Button.jsx";
 import Pill from "../ui/Pill.jsx";
 import StackCard from "../ui/StackCard.jsx";
+import LoginScreen from "../portal/LoginScreen.jsx";
 
 const Squiggle = ({ color }) => (
   <svg width="150" height="14" viewBox="0 0 150 14" className="absolute left-0 -bottom-1.5 w-24 sm:w-[150px]">

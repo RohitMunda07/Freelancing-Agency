@@ -4,13 +4,15 @@ import Button from "../ui/Button.jsx";
 import ThemeToggle from "../ui/ThemeToggle.jsx";
 import { GoogleLogin } from "@react-oauth/google";
 import { useGoogleLogin } from "@react-oauth/google";
+import Logo from "../ui/Logo.jsx";
+import { useNavigate } from "react-router-dom";
 
 
 const LINKS = ["Services", "Process", "Work", "Reviews", "Contact"];
 
 export default function Nav({ onLogin }) {
   const [open, setOpen] = useState(false);
-
+  const navigate = useNavigate(null)
   const scrollTo = (id) => {
     setOpen(false);
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -28,12 +30,15 @@ export default function Nav({ onLogin }) {
     },
   });
 
+  const handleOnClick = () => {
+    navigate('/login')
+  }
 
   return (
-    <div className="border-b border-border sticky top-0 bg-ink/95 backdrop-blur z-20">
+    <div className="border-b border-border bg-ink/95 backdrop-blur sticky top-0 z-20">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         <div className="font-display font-bold text-lg text-offwhite tracking-tight flex items-center gap-1">
-          <span className="text-teal">{"<"}</span>Stackform<span className="text-teal">{"/>"}</span>
+          <Logo />
         </div>
 
         {/* Desktop links */}
@@ -52,7 +57,12 @@ export default function Nav({ onLogin }) {
             </a>
           ))}
           <ThemeToggle />
-          <Button type='submit' variant="secondary" icon={LogIn} onClick={onLogin} className="!px-4 !py-2">
+          <Button
+            type='submit'
+            variant="secondary"
+            icon={LogIn}
+            onClick={handleOnClick}
+            className="!px-4 !py-2">
             Client Login
           </Button>
 
@@ -90,7 +100,14 @@ export default function Nav({ onLogin }) {
               {l}
             </a>
           ))}
-          <Button variant="secondary" icon={LogIn} onClick={() => { setOpen(false); onLogin(); }} className="justify-center">
+          <Button
+            variant="secondary"
+            icon={LogIn}
+            onClick={() => {
+              handleOnClick()
+              setOpen(false);
+              onLogin();
+            }} className="justify-center">
             Client Login
           </Button>
 

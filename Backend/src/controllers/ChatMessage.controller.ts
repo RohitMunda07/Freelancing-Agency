@@ -4,6 +4,8 @@ import ApiError from "../utils/apiError.js";
 import { ChatMessageModel } from "../models/ChatMessage.model.js";
 import { SubmitContactFormSchema, SubmitQuickFormSchema, UpdateMessageStatusSchema } from "../validators/message.schema.js"
 import mongoose from "mongoose";
+import { transporter } from "../config/mail.js";
+import { sendEmail } from "../emails/Nodemailer/nodemailer.service.js";
 
 // Send Quick Message
 const sendQuickMessage = asyncHandler(async (req, res) => {
@@ -17,6 +19,19 @@ const sendQuickMessage = asyncHandler(async (req, res) => {
     if (!message) {
         throw new ApiError(500, "Error creating message")
     }
+
+    // Send an email to admin
+    await transporter.verify()
+
+    await sendEmail(`${process.env.EMAIL_TO}`, "Quick Follow Up Message",
+        `
+        <div> 
+            <h2>You Have a Message from ${parsed.data.name}</h2>
+            <h3>From ${parsed.data.email} </h3>
+            <p>${parsed.data.message}</p>
+        </div>
+        `
+    )
 
     return res
         .status(201)

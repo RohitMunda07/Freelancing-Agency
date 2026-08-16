@@ -50,6 +50,7 @@ import {
 } from "react-router-dom";
 
 import RazorpayCheckout from "./components/Razorpay/RazorpayCheckout.jsx";
+import { AuthProvider } from "./context/authContex.jsx";
 
 
 // view: "site" | "login" | "dashboard"
@@ -62,43 +63,58 @@ function AppContent() {
   const isCheckoutPage = location.pathname === "/checkout";
 
   return (
-    <ThemeProvider>
+    // <ThemeProvider>
 
-      {/* Don't render the normal application UI on checkout */}
-      {!isCheckoutPage && (
-        <div className="min-h-screen bg-ink">
+    //   {/* Don't render the normal application UI on checkout */}
+    //   {!isCheckoutPage && (
+    //     <div className="min-h-screen bg-ink">
 
-          {view === "site" && (
-            <PublicSite
-              onLogin={() => setView("login")}
-            />
-          )}
+    //       {view === "site" && (
+    //         <PublicSite
+    //           onLogin={() => setView("login")}
+    //         />
+    //       )}
 
-          {view === "login" && (
-            <LoginScreen
-              onLogin={() => setView("dashboard")}
-              onBack={() => setView("site")}
-            />
-          )}
+    //       {view === "login" && (
+    //         <LoginScreen
+    //         onLogin={() => setView("dashboard")}
+    //         onBack={() => setView("site")}
+    //         />
+    //         )}
 
-          {view === "dashboard" && (
-            <Dashboard
-              onLogout={() => setView("site")}
-            />
-          )}
+    //         {view === "dashboard" && (
+    //           <Dashboard
+    //           onLogout={() => setView("site")}
+    //           />
+    //           )}
 
-        </div>
-      )}
+    //           </div>
+    //           )}
+    //   </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <Routes>
+          <Route
+            path="/"
+            element={<PublicSite />}
+          />
+          <Route
+            path="/checkout"
+            element={<RazorpayCheckout />}
+          />
 
-      <Routes>
+          <Route
+            path="/login"
+            element={<LoginScreen />}
+          />
 
-        <Route
-          path="/checkout"
-          element={<RazorpayCheckout />}
-        />
-      </Routes>
-
-    </ThemeProvider>
+          <Route
+            path="/dashboard"
+            element={<Dashboard />}
+          />
+        </Routes>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 

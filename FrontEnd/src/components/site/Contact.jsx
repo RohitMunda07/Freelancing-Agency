@@ -28,7 +28,7 @@ export default function Contact() {
   const handleContactSend = async () => {
     // Api call
     setIsSending(true)
-    
+
     console.log("Sending:", sendData);
 
     try {
@@ -66,12 +66,17 @@ export default function Contact() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 relative">
+          {
+            isSending &&
+            <div className="flex items-center justify-center rounded-2xl bg-ink/70 backdrop-blur-sm absolute inset-0 z-10">
+              <SendLoader />
+            </div>
+          }
           {sent ? (
             <div className="flex items-center gap-2.5 text-teal font-body text-sm">
               <CheckCircle2 size={18} />
               Thanks — this is a prototype, so nothing was actually sent, but this is where the message would go.
-              {isSending ? <SendLoader /> : ""}
             </div>
 
           ) : (
