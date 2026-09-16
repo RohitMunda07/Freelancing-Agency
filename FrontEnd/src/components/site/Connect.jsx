@@ -11,7 +11,7 @@ export default function Connect() {
       <div className="max-w-4xl mx-auto px-6 py-24 sm:py-28 text-center">
         <h2 className="font-display text-2xl sm:text-[32px] text-offwhite">Let's build together.</h2>
         <p className="font-body text-sm sm:text-base text-muted mt-3 max-w-md mx-auto">
-          Have an idea, business, or project in mind? Let's turn it into something real — on web and Android.
+          Have an idea, business, or project in mind? Let's turn it into something real — on web.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-12">
@@ -35,7 +35,7 @@ export default function Connect() {
         <div className="bg-surface/60 border border-border rounded-2xl p-8 sm:p-10 mt-8">
           <h3 className="font-display text-xl sm:text-2xl text-offwhite mb-3">Ready to build something amazing?</h3>
           <p className="font-body text-sm text-muted max-w-md mx-auto mb-6">
-            From web dashboards to Android apps, reach out to start your next project.
+            From web dashboards to Mobile responsive, reach out to start your next project.
           </p>
           <Button
             variant="primary"
