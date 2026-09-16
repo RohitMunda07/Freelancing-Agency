@@ -1,20 +1,15 @@
 import nodemailer from "nodemailer";
 
-// console.log({
-//   host: process.env.SMTP_HOST,
-//   port: process.env.SMTP_PORT,
-//   user: process.env.SMTP_USER,
-//   pass: process.env.SMTP_PASS ? "Loaded" : "Missing",
-// });
-
-export const transporter = nodemailer.createTransport({
+const smtpConfig = {
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT),
-
     secure: false,
+    family: 4,
 
     auth: {
         user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS
-    }
-});
+        pass: process.env.SMTP_PASS,
+    },
+};
+
+export const transporter = nodemailer.createTransport(smtpConfig);

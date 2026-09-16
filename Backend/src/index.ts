@@ -35,7 +35,7 @@ const startServer = async () => {
             throw new ApiError(404, "Port not found")
         }
 
-        await transporter.verify();
+        // await transporter.verify();
 
         // console.log("SMTP Connected");
 
