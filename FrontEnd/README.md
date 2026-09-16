@@ -43,3 +43,4 @@ npm run preview
 - The client portal login is a mock — any email/password "works" and just switches the view. Wire up real auth + an Express/MongoDB API when you're ready to go from prototype to product (swap the arrays in `mockData.js` for `fetch`/API calls).
 - Reviews section (`src/components/site/Reviews.jsx`) is a placeholder — replace the `PLACEHOLDERS` array with real `{ quote, name, role }` objects once you have testimonials.
 - Colors, fonts, and shadows live in `tailwind.config.js` under `theme.extend` — change them there and they propagate everywhere.
+- final deploy = 17/9/26
