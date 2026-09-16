@@ -70,10 +70,10 @@ export const SERVICES = [
     desc: "MongoDB, Express, React and Node — dashboards, internal tools, customer-facing products, built to scale past the MVP.",
   },
   {
-    iconType: "phone",
-    title: "Android Apps",
-    tag: "KOTLIN / COMPOSE",
-    desc: "Native Android apps with modern Compose UI, offline-first architecture, and clean integration with your existing backend.",
+    iconType: "cart",
+    title: "E-commerce Solutions",
+    tag: "MERN + RAZORPAY",
+    desc: "Custom online stores with product catalogs, cart, and Razorpay checkout — built to fit your business, not squeezed into a template.",
   },
   {
     iconType: "stack",
@@ -111,6 +111,6 @@ export const SOCIALS = [
     title: "Email",
     desc: "Send project requirements directly and we'll get back to you quickly.",
     cta: "Send Email",
-    href: "mailto:hello@stackform.dev",
+    href: "https://mail.google.com/mail/?view=cm&fs=1&to=rohit.dev14818@gmail.com&su=Project%20Inquiry",
   },
 ];

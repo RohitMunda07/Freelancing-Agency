@@ -111,6 +111,6 @@ export const SOCIALS = [
     title: "Email",
     desc: "Send project requirements directly and we'll get back to you quickly.",
     cta: "Send Email",
-    href: "mailto:hello@stackform.dev",
+    href: "mailto:hello@ArisingBox.dev",
   },
 ];

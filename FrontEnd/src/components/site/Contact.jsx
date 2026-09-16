@@ -59,11 +59,12 @@ export default function Contact() {
           </p>
           <div className="mt-6 flex flex-col gap-2.5">
             <div className="flex items-center gap-2 font-body text-[13px] text-muted">
-              <Mail size={15} className="text-teal" /> hello@stackform.dev
+              {/* <Mail size={15} className="text-teal" /> hello@ArisingBox.dev */}
+              <Mail size={15} className="text-teal" /> rohit.dev14818@gmail.com
             </div>
-            <div className="flex items-center gap-2 font-body text-[13px] text-muted">
-              <Github size={15} className="text-teal" /> github.com/stackform
-            </div>
+            {/* <div className="flex items-center gap-2 font-body text-[13px] text-muted">
+              <Github size={15} className="text-teal" /> github.com/ArisingBox
+            </div> */}
           </div>
         </div>
         <div className="flex flex-col gap-3 relative">

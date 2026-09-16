@@ -57,18 +57,18 @@ export default function Nav({ onLogin }) {
             </a>
           ))}
           <ThemeToggle />
-          <Button
+          {/* <Button
             type='submit'
             variant="secondary"
             icon={LogIn}
             onClick={handleOnClick}
             className="!px-4 !py-2">
             Client Login
-          </Button>
+          </Button> */}
 
-          <Button onClick={() => googleLogin()}>
+          {/* <Button onClick={() => googleLogin()}>
             Continue with Google
-          </Button>
+          </Button> */}
         </div>
 
         {/* Mobile: toggle + hamburger, always visible */}
@@ -100,7 +100,7 @@ export default function Nav({ onLogin }) {
               {l}
             </a>
           ))}
-          <Button
+          {/* <Button
             variant="secondary"
             icon={LogIn}
             onClick={() => {
@@ -109,7 +109,7 @@ export default function Nav({ onLogin }) {
               onLogin();
             }} className="justify-center">
             Client Login
-          </Button>
+          </Button> */}
 
           {/* <GoogleLogin
             onSuccess={(credentialResponse) => {
@@ -120,9 +120,9 @@ export default function Nav({ onLogin }) {
             }}
           /> */}
 
-          <Button onClick={() => googleLogin()}>
+          {/* <Button onClick={() => googleLogin()}>
             Continue with Google
-          </Button>
+          </Button> */}
         </div>
       )}
     </div>

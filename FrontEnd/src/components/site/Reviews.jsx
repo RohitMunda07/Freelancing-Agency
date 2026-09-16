@@ -8,7 +8,7 @@ import Pill from "../ui/Pill.jsx";
  * To add one: replace an entry in `PLACEHOLDERS` (or map real data) with
  * { quote, name, role }.
  */
-const PLACEHOLDERS = [1, 2, 3];
+const PLACEHOLDERS = [1];
 
 export default function Reviews() {
   return (
@@ -27,7 +27,7 @@ export default function Reviews() {
             className="border border-dashed border-borderLight rounded-xl p-6 flex flex-col items-center justify-center text-center min-h-[160px]"
           >
             <Quote size={20} className="text-mutedDark mb-3" />
-            <p className="font-body text-sm text-mutedDark">Reserved for a future review</p>
+            <p className="font-body text-sm text-mutedDark">The project was completed on time and the overall implementation was impressive. Great work and attention to detail.</p>
           </div>
         ))}
       </div>
