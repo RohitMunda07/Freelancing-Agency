@@ -621,7 +621,7 @@ Project officially closes.
 
 ---
 
-# Business Workflow for Stackform
+# Business Workflow for ArisingBox
 
 Based on your agency, I recommend this workflow:
 

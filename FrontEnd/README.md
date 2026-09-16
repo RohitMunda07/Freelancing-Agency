@@ -1,4 +1,4 @@
-# Stackform — Agency Platform
+# ArisingBox — Agency Platform
 
 Marketing site + client portal prototype for a MERN / Android (Kotlin, Compose) dev studio.
 Built with React, Tailwind CSS, and GSAP (ScrollTrigger) for the scroll-driven timeline.

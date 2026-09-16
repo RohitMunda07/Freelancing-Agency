@@ -51,7 +51,7 @@ export default function LoginScreen() {
     <div className="min-h-screen flex items-center justify-center px-6">
       <div className="w-full max-w-sm bg-surface border border-border rounded-2xl p-8">
         <div className="font-display font-bold text-lg text-offwhite mb-1">
-          <span className="text-teal">{"<"}</span>Stackform<span className="text-teal">{"/>"}</span>
+          <span className="text-teal">{"<"}</span>ArisingBox<span className="text-teal">{"/>"}</span>
         </div>
         <div className="font-body text-[13px] text-muted mb-6">
           Client Portal — sign in to view your project

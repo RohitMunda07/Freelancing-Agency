@@ -17,7 +17,7 @@ export default function Sidebar({ tab, setTab, selected, setSelected, onLogout }
   return (
     <div className="md:w-56 border-b md:border-b-0 md:border-r border-border p-4 md:p-6 flex md:flex-col">
       <div className="hidden md:block font-display font-bold text-[17px] text-offwhite mb-8 pl-2">
-        <span className="text-teal">{"<"}</span>Stackform<span className="text-teal">{"/>"}</span>
+        <span className="text-teal">{"<"}</span>ArisingBox<span className="text-teal">{"/>"}</span>
       </div>
 
       <div className="flex md:flex-col gap-2 flex-1 overflow-x-auto">

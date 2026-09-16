@@ -3,13 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Stackform — MERN & Android development</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>ArisingBox — MERN & Android development</title>
     <script>
       // Runs before React mounts so there's no flash of the wrong theme
       // on reload — reads the same key ThemeContext writes to.
       (function () {
         try {
-          var saved = localStorage.getItem("stackform-theme");
+          var saved = localStorage.getItem("ArisingBox-theme");
           var theme = saved === "light" || saved === "dark"
             ? saved
             : (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");

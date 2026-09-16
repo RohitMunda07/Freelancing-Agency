@@ -10,13 +10,12 @@ export default function Work() {
           <Pill>MERN</Pill>
           <h3 className="font-display text-xl text-offwhite mt-3.5 mb-2">Visitors Management System</h3>
           <p className="font-body text-sm text-muted leading-relaxed">
-            Front-desk check-in, host alerts, and badge printing across a 3-building business park — replacing a paper logbook with a searchable digital record.
-          </p>
+            A digital visitor management system built for MECON Limited, Ranchi, designed to streamline visitor check-ins, host notifications, and visitor records—replacing manual logbooks with a faster, searchable system.          </p>
           <div className="flex gap-2 mt-3 font-mono text-[11px] text-mutedDark">
             <span>REACT</span><span>·</span><span>NODE</span><span>·</span><span>MONGODB</span>
           </div>
         </div>
-        <div className="bg-surface border border-border rounded-xl p-7">
+        {/* <div className="bg-surface border border-border rounded-xl p-7">
           <Pill color="amber">KOTLIN / COMPOSE</Pill>
           <h3 className="font-display text-xl text-offwhite mt-3.5 mb-2">Field Inspection App</h3>
           <p className="font-body text-sm text-muted leading-relaxed">
@@ -25,7 +24,7 @@ export default function Work() {
           <div className="flex gap-2 mt-3 font-mono text-[11px] text-mutedDark">
             <span>COMPOSE</span><span>·</span><span>ROOM</span>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

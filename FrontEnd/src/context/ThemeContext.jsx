@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 const ThemeContext = createContext(null);
-const STORAGE_KEY = "stackform-theme";
+const STORAGE_KEY = "ArisingBox-theme";
 
 function getInitialTheme() {
   if (typeof window === "undefined") return "dark";

@@ -31,7 +31,7 @@ const RazorpayCheckout = () => {
 
             currency: "INR",
 
-            name: "Stackform",
+            name: "ArisingBox",
 
             description: "Test Payment",
 
@@ -92,7 +92,7 @@ const RazorpayCheckout = () => {
 
                 <div className="mb-6 text-center">
                     <h1 className="text-2xl font-bold">
-                        Stackform
+                        ArisingBox
                     </h1>
 
                     <p className="mt-2 text-gray-500">

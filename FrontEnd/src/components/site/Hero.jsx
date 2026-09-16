@@ -3,7 +3,6 @@ import { ArrowRight, Sparkles, Lightbulb } from "lucide-react";
 import Button from "../ui/Button.jsx";
 import Pill from "../ui/Pill.jsx";
 import StackCard from "../ui/StackCard.jsx";
-import LoginScreen from "../portal/LoginScreen.jsx";
 
 const Squiggle = ({ color }) => (
   <svg width="150" height="14" viewBox="0 0 150 14" className="absolute left-0 -bottom-1.5 w-24 sm:w-[150px]">
@@ -49,17 +48,17 @@ export default function Hero({ onContact }) {
 
       <div id="top" className="max-w-6xl mx-auto px-6 pt-16 sm:pt-20 pb-8 grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-10 md:gap-12 items-center relative">
         <div>
-          <Pill>WEB · MOBILE · ONE TEAM</Pill>
+          <Pill>WEB · COMMERCE · ONE TEAM</Pill>
           <h1 className="font-display text-[34px] sm:text-[44px] lg:text-[48px] leading-[1.08] text-offwhite mt-5 mb-5 tracking-tight">
             We build the{" "}
             <span className="relative text-teal inline-block">
               web app
               <Squiggle color="#5EEAD4" />
             </span>{" "}
-            and the <span className="text-amber">Android app</span> — from the same source of truth.
+            that runs your business — and the <span className="text-amber">storefront</span> that sells for it.
           </h1>
           <p className="font-body text-base text-muted leading-relaxed max-w-[480px]">
-            Stackform is a small full-stack studio working in MERN and Kotlin/Compose. No handoffs between disconnected teams — one point of contact, one API, one plan.
+            ArisingBox is a small full-stack studio working in MERN — dashboards, internal tools, and e-commerce stores with real payment integration built in. One point of contact, one API, one plan.
           </p>
 
           <div className="relative flex flex-wrap gap-3 mt-8">
@@ -89,10 +88,10 @@ export default function Hero({ onContact }) {
             <StackCard label="MONGODB" sub="data" offset={2} color="#5EEAD4" />
           </div>
           <div className="absolute right-0 sm:right-[2%] top-[184px]">
-            <StackCard label="KOTLIN · COMPOSE" sub="android" offset={3} color="#F5A623" />
+            <StackCard label="RAZORPAY" sub="checkout" offset={3} color="#F5A623" />
           </div>
           <span className="absolute right-[4%] -top-4 font-hand text-lg text-teal rotate-[6deg] hidden sm:block">
-            two stacks, one team
+            ready for checkout
           </span>
         </div>
       </div>

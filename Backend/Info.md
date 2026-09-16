@@ -1,6 +1,6 @@
 This is actually one of the most important design decisions. **Status is not the same for every model.** Each model represents a different business process, so its statuses should reflect that process.
 
-Here's how I'd design it for **Stackform**.
+Here's how I'd design it for **ArisingBox**.
 
 ---
 
