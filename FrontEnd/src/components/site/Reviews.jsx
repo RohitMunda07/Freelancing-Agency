@@ -26,7 +26,7 @@ export default function Reviews() {
             key={i}
             className="border border-dashed border-borderLight rounded-xl p-6 flex flex-col items-center justify-center text-center min-h-[160px]"
           >
-            <Quote size={20} className="text-mutedDark mb-3" />
+            <Quote size={20} color="#" fill="#f5a623" className="text-mutedDark mb-3" />
             <p className="font-body text-sm text-mutedDark">The project was completed on time and the overall implementation was impressive. Great work and attention to detail.</p>
           </div>
         ))}
