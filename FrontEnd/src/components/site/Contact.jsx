@@ -26,8 +26,7 @@ export default function Contact() {
   }
 
   const handleContactSend = async () => {
-    // Api call
-    setIsSending(true)
+    setIsSending(true);
 
     console.log("Sending:", sendData);
 
@@ -35,20 +34,30 @@ export default function Contact() {
       const response = await post(
         "/chat/messages/quick-message",
         sendData
-      )
+      );
 
-      console.log(response.data);
+      console.log("Success:", response.data);
 
       setSent(true);
 
     } catch (error) {
-      console.log(error.response?.message || "Error sending the message");
-      console.error("Response:", error.response?.data);
-      console.error("Status:", error.response?.status);
+      console.error("Error sending the message:", error);
+
+      if (error.response) {
+        console.error("Server response:", error.response.data);
+        console.error("Status:", error.response.status);
+
+      } else if (error.request) {
+        console.error("No response received from backend:", error.request);
+
+      } else {
+        console.error("Request setup error:", error.message);
+      }
+
     } finally {
       setIsSending(false);
     }
-  }
+  };
 
   return (
     <div id="contact" className="max-w-6xl mx-auto px-6 pb-24 sm:pb-28">
