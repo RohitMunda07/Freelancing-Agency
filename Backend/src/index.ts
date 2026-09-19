@@ -11,21 +11,21 @@ import { transporter } from "./config/mail.js"
 import { sendEmail } from "./emails/Nodemailer/nodemailer.service.js";
 
 const data = {
-message: 'Hello, this is a JSON response!',
-status: 'success',
-timestamp: new Date()
+    message: 'Hello, this is a JSON response!',
+    status: 'success',
+    timestamp: new Date()
 };
 
 const startServer = async () => {
     try {
         await connectDB();
         app.get("/", (req, res) => {
-            res.send("Alright!!").json({
-                status: 200,
-                message: "Every thing is fine",
-                data
-            })
-        })
+            res.status(200).json({
+                status: "success",
+                message: "Backend is running",
+                timestamp: new Date().toISOString(),
+            });
+        });
 
         console.log();
 

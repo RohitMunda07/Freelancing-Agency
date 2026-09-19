@@ -21,7 +21,7 @@ const sendQuickMessage = asyncHandler(async (req, res) => {
     }
 
     // Send an email to admin
-    await transporter.verify()
+    // await transporter.verify()
 
     await sendEmail(`${process.env.EMAIL_TO}`, "Quick Follow Up Message",
         `

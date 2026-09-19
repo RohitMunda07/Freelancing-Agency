@@ -43,7 +43,8 @@ export default function Contact() {
 
     } catch (error) {
       console.log(error.response?.message || "Error sending the message");
-
+      console.error("Response:", error.response?.data);
+      console.error("Status:", error.response?.status);
     } finally {
       setIsSending(false);
     }
@@ -77,7 +78,7 @@ export default function Contact() {
           {sent ? (
             <div className="flex items-center gap-2.5 text-teal font-body text-sm">
               <CheckCircle2 size={18} />
-              Thanks — this is a prototype, so nothing was actually sent, but this is where the message would go.
+              Thanks — Your message has been sent successfully, <br /> We will contact you soon.
             </div>
 
           ) : (

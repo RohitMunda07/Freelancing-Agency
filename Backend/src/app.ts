@@ -27,6 +27,15 @@ import {
     chatMessageRouter
 } from "./routes/routes.js"
 
+// Health check
+app.get("/health", (req, res) => {
+    res.status(200).json({
+        status: "ok",
+        message: "Backend is healthy",
+        timestamp: new Date().toISOString(),
+    });
+});
+
 app.use("/api/v1/user", userRoute)
 app.use("/api/v1/project", projectRoute)
 app.use("/api/v1/payment", paymentRoute)
