@@ -16,8 +16,9 @@ interface ChatMessageDocument extends Document {
     name: string;
     email: string;
     phone?: string;
-    subject?: string;
+    // subject?: string;
     service?: string;
+    customService?: string;
     budget?: string;
     message: string;
     type: messageType;
@@ -45,13 +46,18 @@ const ChatMessageDbSchema: Schema<ChatMessageDocument> = new Schema({
         trim: true
     },
 
-    subject: {
-        type: String,
-        trim: true,
-        index: true
-    },
+    // subject: {
+    //     type: String,
+    //     trim: true,
+    //     index: true
+    // },
 
     service: {
+        type: String,
+        trim: true
+    },
+    
+    customService: {
         type: String,
         trim: true
     },

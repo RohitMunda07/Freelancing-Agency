@@ -3,6 +3,7 @@
 import z from "zod"
 import { messageStatus } from "../models/ChatMessage.model.js"
 import { messageType } from "../models/ChatMessage.model.js"
+import { serviceType } from "../emails/Resend/resend.query.js"
 
 // Derived from the model's actual TS enum — see project.schema.ts for why.
 const MessageStatusEnum = z.nativeEnum(messageStatus).default(messageStatus.NEW)
@@ -23,16 +24,24 @@ const ChatMessageZodSchema = z.object({
         .string()
         .regex(/^(?:\+91|91)?[6-9]\d{9}$/, "Please enter a valid phone number"),
 
-    subject: z
-        .string()
-        .trim()
-        .min(2, "Subject is required")
-        .max(150),
+    // subject: z
+    //     .string()
+    //     .trim()
+    //     .min(2, "Subject is required")
+    //     .max(150),
+
+    serviceType: z.nativeEnum(serviceType).default(serviceType.SERVICE),
 
     service: z
         .string()
         .trim()
         .min(1, "Service is required"),
+
+    customService: z
+        .string()
+        .trim()
+        .optional()
+        .default(""),
 
     budget: z
         .string()

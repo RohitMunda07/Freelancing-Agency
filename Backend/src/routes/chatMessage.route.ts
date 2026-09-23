@@ -12,7 +12,7 @@ const router = Router()
 
 router.route("/messages").get(verifyJWT, getAllMessage)
 router.route("/messages/quick-message").post(sendQuickMessage)
-router.route("/messages/project-message").post(verifyJWT, sendProjectMessage)
+router.route("/messages/project-message").post(sendProjectMessage)
 router.route("/messages/:messageId").patch(verifyJWT, updateStatus)
 router.route("/messages/:messageId").delete(verifyJWT, deleteMessage)
 

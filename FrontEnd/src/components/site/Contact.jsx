@@ -14,16 +14,27 @@ export default function Contact() {
   const [sendData, setSendData] = useState({
     name: "",
     email: "",
-    message: ""
+    phone: "",
+    message: "",
+    serviceType: "",
+    service: "",
+    customService: "",
+    budget: ""
   })
 
   const handleOnChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
+
     setSendData((prev) => ({
       ...prev,
-      [name]: value
-    }))
-  }
+      [name]: value,
+
+      ...(name === "service" && {
+        serviceType: value === "Other" ? "others" : "service",
+        customService: value === "Other" ? prev.customService : "",
+      }),
+    }));
+  };
 
   const handleContactSend = async () => {
     setIsSending(true);
@@ -32,7 +43,7 @@ export default function Contact() {
 
     try {
       const response = await post(
-        "/chat/messages/quick-message",
+        "/chat/messages/project-message",
         sendData
       );
 
@@ -58,6 +69,12 @@ export default function Contact() {
       setIsSending(false);
     }
   };
+
+  // useEffect(() => {
+  //   console.log(sendData.service);
+  //   console.log(sendData.customService);
+
+  // }, [sendData])
 
   return (
     <div id="contact" className="max-w-6xl mx-auto px-6 pb-24 sm:pb-28">
@@ -103,6 +120,45 @@ export default function Contact() {
                 placeholder="Email"
                 name="email"
                 onChange={handleOnChange} />
+
+              <input
+                className={inputClass}
+                placeholder="Phone number"
+                name="phone"
+                onChange={handleOnChange}
+              />
+
+              <select
+                className={inputClass}
+                name="service"
+                value={sendData.service}
+                onChange={handleOnChange}
+              >
+                <option value="">Select service</option>
+                <option value="E-commerce">E-commerce</option>
+                <option value="Cafe/Restaurant">Cafe / Restaurant</option>
+                <option value="Gym">Gym</option>
+                <option value="School">School</option>
+                <option value="Jewellery">Jewellery</option>
+                <option value="Other">Other</option>
+              </select>
+
+              {sendData.service === "Other" && (
+                <input
+                  className={inputClass}
+                  placeholder="Type your service"
+                  name="customService"
+                  value={sendData.customService}
+                  onChange={handleOnChange}
+                />
+              )}
+
+              <input
+                className={inputClass}
+                placeholder="Budget (optional)"
+                name="budget"
+                onChange={handleOnChange}
+              />
 
               <textarea
                 className={inputClass}

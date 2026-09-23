@@ -6,6 +6,7 @@ import { SubmitContactFormSchema, SubmitQuickFormSchema, UpdateMessageStatusSche
 import mongoose from "mongoose";
 import { transporter } from "../config/mail.js";
 import { sendEmail } from "../emails/Nodemailer/nodemailer.service.js";
+import { queryForm } from "../emails/Resend/resend.query.js";
 
 // Send Quick Message
 const sendQuickMessage = asyncHandler(async (req, res) => {
@@ -23,15 +24,20 @@ const sendQuickMessage = asyncHandler(async (req, res) => {
     // Send an email to admin
     // await transporter.verify()
 
-    await sendEmail(`${process.env.EMAIL_TO}`, "Quick Follow Up Message",
-        `
-        <div> 
-            <h2>You Have a Message from ${parsed.data.name}</h2>
-            <h3>From ${parsed.data.email} </h3>
-            <p>${parsed.data.message}</p>
-        </div>
-        `
-    )
+    // =========================[Nodemailer]=================================
+    // await sendEmail(`${process.env.EMAIL_TO}`, "Quick Follow Up Message",
+    //     `
+    //     <div> 
+    //         <h2>You Have a Message from ${parsed.data.name}</h2>
+    //         <h3>From ${parsed.data.email} </h3>
+    //         <p>${parsed.data.message}</p>
+    //     </div>
+    //     `
+    // )
+
+    // =========================[Resend]=================================
+    // =========================[if using this controller fix the parameter at resend.query.ts file]=================================
+    // await queryForm(parsed.data.email, parsed.data.)
 
     return res
         .status(201)
@@ -52,6 +58,12 @@ const sendProjectMessage = asyncHandler(async (req, res) => {
     if (!message) {
         throw new ApiError(500, "Error creating message")
     }
+
+    // const messageData = JSON.stringify(parsed.data, null, 2);
+
+    // console.log("Message data", messageData, "Type:", typeof (messageData));
+    
+    await queryForm(parsed.data)
 
     return res
         .status(201)
