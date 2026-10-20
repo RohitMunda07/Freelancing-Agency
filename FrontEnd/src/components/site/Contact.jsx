@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Mail, Github, Send, CheckCircle2 } from "lucide-react";
 import Button from "../ui/Button.jsx";
-import SendLoader from "../ui/SendLoader.jsx"
-import { post } from "../../axios/axios.js"
+import SendLoader from "../ui/SendLoader.jsx";
+import { post } from "../../axios/axios.js";
 
 const inputClass =
   "font-body text-sm text-offwhite bg-surfaceAlt border border-borderLight rounded-lg px-3.5 py-2.5 outline-none focus:border-teal transition-colors w-full";
@@ -20,7 +20,7 @@ export default function Contact() {
     service: "",
     customService: "",
     budget: ""
-  })
+  });
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -39,42 +39,18 @@ export default function Contact() {
   const handleContactSend = async () => {
     setIsSending(true);
 
-    console.log("Sending:", sendData);
-
     try {
       const response = await post(
         "/chat/messages/project-message",
         sendData
       );
-
-      console.log("Success:", response.data);
-
       setSent(true);
-
     } catch (error) {
       console.error("Error sending the message:", error);
-
-      if (error.response) {
-        console.error("Server response:", error.response.data);
-        console.error("Status:", error.response.status);
-
-      } else if (error.request) {
-        console.error("No response received from backend:", error.request);
-
-      } else {
-        console.error("Request setup error:", error.message);
-      }
-
     } finally {
       setIsSending(false);
     }
   };
-
-  // useEffect(() => {
-  //   console.log(sendData.service);
-  //   console.log(sendData.customService);
-
-  // }, [sendData])
 
   return (
     <div id="contact" className="max-w-6xl mx-auto px-6 pb-24 sm:pb-28">
@@ -86,40 +62,36 @@ export default function Contact() {
           </p>
           <div className="mt-6 flex flex-col gap-2.5">
             <div className="flex items-center gap-2 font-body text-[13px] text-muted">
-              {/* <Mail size={15} className="text-teal" /> hello@ArisingBox.dev */}
-              <Mail size={15} className="text-teal" /> rohit.dev14818@gmail.com
+              <Mail size={15} className="text-teal" /> arisingbox@gmail.com
             </div>
-            {/* <div className="flex items-center gap-2 font-body text-[13px] text-muted">
-              <Github size={15} className="text-teal" /> github.com/ArisingBox
-            </div> */}
           </div>
         </div>
         <div className="flex flex-col gap-3 relative">
-          {
-            isSending &&
+          {isSending && (
             <div className="flex items-center justify-center rounded-2xl bg-ink/70 backdrop-blur-sm absolute inset-0 z-10">
               <SendLoader />
             </div>
-          }
+          )}
           {sent ? (
             <div className="flex items-center gap-2.5 text-teal font-body text-sm">
               <CheckCircle2 size={18} />
               Thanks — Your message has been sent successfully, <br /> We will contact you soon.
             </div>
-
           ) : (
             <>
               <input
                 className={inputClass}
                 placeholder="Your name"
                 name="name"
-                onChange={handleOnChange} />
+                onChange={handleOnChange}
+              />
 
               <input
                 className={inputClass}
                 placeholder="Email"
                 name="email"
-                onChange={handleOnChange} />
+                onChange={handleOnChange}
+              />
 
               <input
                 className={inputClass}
@@ -135,11 +107,10 @@ export default function Contact() {
                 onChange={handleOnChange}
               >
                 <option value="">Select service</option>
-                <option value="E-commerce">E-commerce</option>
-                <option value="Cafe/Restaurant">Cafe / Restaurant</option>
-                <option value="Gym">Gym</option>
-                <option value="School">School</option>
-                <option value="Jewellery">Jewellery</option>
+                <option value="Website Development">Website Development</option>
+                <option value="Meta Ads">Meta Ads</option>
+                <option value="Video Editing (Shorts / Reels)">Video Editing (Shorts / Reels)</option>
+                <option value="Complete Growth Bundle (Web + Ads + Video)">Complete Growth Bundle (Web + Ads + Video)</option>
                 <option value="Other">Other</option>
               </select>
 
@@ -162,14 +133,16 @@ export default function Contact() {
 
               <textarea
                 className={inputClass}
-                placeholder="What are you building?"
+                placeholder="What are you building or scaling?"
                 rows={4}
                 name="message"
-                onChange={handleOnChange} />
+                onChange={handleOnChange}
+              />
 
               <Button
                 onClick={handleContactSend}
-                icon={Send}>
+                icon={Send}
+              >
                 Send message
               </Button>
             </>

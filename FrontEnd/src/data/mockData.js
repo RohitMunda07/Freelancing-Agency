@@ -83,12 +83,35 @@ export const SERVICES = [
   },
 ];
 
+// export const PROCESS = [
+//   { n: "01", title: "Discover", desc: 'Scope the problem, not just the feature list. We map users, constraints, and what "done" actually means.' },
+//   { n: "02", title: "Design", desc: "Wireframes and a technical plan you approve before a line of code is written." },
+//   { n: "03", title: "Build", desc: "Weekly builds you can click through — staging links, not status reports." },
+//   { n: "04", title: "Ship", desc: "Deployed, documented, and handed over with a walkthrough — not a zip file." },
+//   { n: "05", title: "Support", desc: "A support window post-launch, then a maintenance plan if you want one." },
+// ];
+
 export const PROCESS = [
-  { n: "01", title: "Discover", desc: 'Scope the problem, not just the feature list. We map users, constraints, and what "done" actually means.' },
-  { n: "02", title: "Design", desc: "Wireframes and a technical plan you approve before a line of code is written." },
-  { n: "03", title: "Build", desc: "Weekly builds you can click through — staging links, not status reports." },
-  { n: "04", title: "Ship", desc: "Deployed, documented, and handed over with a walkthrough — not a zip file." },
-  { n: "05", title: "Support", desc: "A support window post-launch, then a maintenance plan if you want one." },
+  {
+    n: "01",
+    title: "Discovery & Blueprint",
+    desc: "We analyze your business, target audience, and ad goals to outline your website architecture and creative content plan.",
+  },
+  {
+    n: "02",
+    title: "Design, Build & Edit",
+    desc: "We build your fast, high-converting website while scripting and editing punchy, retention-optimized short-form reels.",
+  },
+  {
+    n: "03",
+    title: "Launch & Ad Campaign Setup",
+    desc: "We deploy your web platform, wire up tracking pixels, and configure your Meta ad sets with high-performing creative hooks.",
+  },
+  {
+    n: "04",
+    title: "Test, Iterate & Scale",
+    desc: "We analyze conversion rates, ROAS, and retention graphs — iterating copy, video creatives, and funnels to scale predictably.",
+  },
 ];
 
 export const SOCIALS = [

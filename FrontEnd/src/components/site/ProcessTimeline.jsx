@@ -61,12 +61,14 @@ export default function ProcessTimeline() {
   return (
     <div id="process" className="max-w-2xl mx-auto px-6 pb-24 sm:pb-32">
       <div className="text-center mb-12 sm:mb-14">
-        <Pill>PROCESS</Pill>
-        <h2 className="font-display text-2xl sm:text-[30px] text-offwhite mt-4">How a project runs</h2>
+        <Pill>HOW WE WORK</Pill>
+        <h2 className="font-display text-2xl sm:text-[30px] text-offwhite mt-4">
+          From concept to conversion
+        </h2>
       </div>
 
       <div ref={trackRef} className="relative pl-0.5">
-        {/* static spine — sits at the far left on mobile, centered on md+ */}
+        {/* static spine */}
         <div className="absolute left-3 md:left-1/2 top-0 bottom-0 w-0.5 md:-translate-x-1/2 bg-border" />
         {/* animated fill */}
         <div
@@ -92,9 +94,11 @@ export default function ProcessTimeline() {
 
               <div className="pl-4 md:pl-7 md:text-left col-start-2 md:col-start-3">
                 <div className="md:hidden">
-                  <ProcessCard phase={p} />
+                  <ProcessCard phase={p} ref={addCardRef} />
                 </div>
-                <div className="hidden md:block">{!isLeft && <ProcessCard phase={p} ref={addCardRef} />}</div>
+                <div className="hidden md:block">
+                  {!isLeft && <ProcessCard phase={p} ref={addCardRef} />}
+                </div>
               </div>
             </div>
           );

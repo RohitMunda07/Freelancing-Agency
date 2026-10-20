@@ -33,9 +33,7 @@ const WavyDivider = () => (
       strokeWidth="1.5"
     />
     <text className="font-hand text-base fill-mutedDark">
-      <textPath href="#heroWave" startOffset="4%">
-        Build. Ship. Iterate. · Build. Ship. Iterate. · Build. Ship. Iterate.
-      </textPath>
+      Build. Scale. Convert. · Build. Scale. Convert. · Build. Scale. Convert.
     </text>
   </svg>
 );
@@ -48,17 +46,17 @@ export default function Hero({ onContact }) {
 
       <div id="top" className="max-w-6xl mx-auto px-6 pt-16 sm:pt-20 pb-8 grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-10 md:gap-12 items-center relative">
         <div>
-          <Pill>WEB · COMMERCE · ONE TEAM</Pill>
+          <Pill>DEV · META ADS · REELS CREATIVE</Pill>
           <h1 className="font-display text-[34px] sm:text-[44px] lg:text-[48px] leading-[1.08] text-offwhite mt-5 mb-5 tracking-tight">
-            We build the{" "}
+            High-converting{" "}
             <span className="relative text-teal inline-block">
-              web app
+              websites
               <Squiggle color="#5EEAD4" />
             </span>{" "}
-            that runs your business — and the <span className="text-amber">storefront</span> that sells for it.
+            and the <span className="text-amber">Meta ads & reels</span> that scale them.
           </h1>
           <p className="font-body text-base text-muted leading-relaxed max-w-[480px]">
-            ArisingBox is a small full-stack studio working in MERN — dashboards, internal tools, and e-commerce stores with real payment integration built in. One point of contact, one API, one plan.
+            ArisingBox builds modern, fast web applications and pairs them with ROI-focused Meta Ad campaigns and viral short-form reel editing. Complete brand growth under one roof.
           </p>
 
           <div className="relative flex flex-wrap gap-3 mt-8">
@@ -79,19 +77,19 @@ export default function Hero({ onContact }) {
 
         <div className="relative h-[260px] sm:h-[300px] flex items-center justify-center">
           <div className="absolute left-[4%] sm:left-[8%] top-2">
-            <StackCard label="REACT" sub="frontend" offset={0} color="#5EEAD4" />
+            <StackCard label="WEB DEVELOPMENT" sub="react · node · custom" offset={0} color="#5EEAD4" />
           </div>
           <div className="absolute left-[4%] sm:left-[8%] top-16">
-            <StackCard label="EXPRESS · NODE" sub="api layer" offset={1} color="#5EEAD4" />
+            <StackCard label="META ADS" sub="scaling · roas · leads" offset={1} color="#5EEAD4" />
           </div>
           <div className="absolute left-[4%] sm:left-[8%] top-[124px]">
-            <StackCard label="MONGODB" sub="data" offset={2} color="#5EEAD4" />
+            <StackCard label="SHORTS & REELS" sub="retention · editing" offset={2} color="#5EEAD4" />
           </div>
           <div className="absolute right-0 sm:right-[2%] top-[184px]">
-            <StackCard label="RAZORPAY" sub="checkout" offset={3} color="#F5A623" />
+            <StackCard label="GROWTH STACK" sub="full pipeline" offset={3} color="#F5A623" />
           </div>
           <span className="absolute right-[4%] -top-4 font-hand text-lg text-teal rotate-[6deg] hidden sm:block">
-            ready for checkout
+            ready to convert
           </span>
         </div>
       </div>
