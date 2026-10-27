@@ -1,33 +1,61 @@
 import React from "react";
-import { Quote } from "lucide-react";
+import { Star, Quote } from "lucide-react";
 import Pill from "../ui/Pill.jsx";
-
-/**
- * Placeholder testimonial section. No reviews yet — this reserves the
- * layout so real client quotes can be dropped in later without a redesign.
- * To add one: replace an entry in `PLACEHOLDERS` (or map real data) with
- * { quote, name, role }.
- */
-const PLACEHOLDERS = [1];
+import { REVIEWS } from "../../data/mockData.js";
 
 export default function Reviews() {
   return (
     <div id="reviews" className="max-w-6xl mx-auto px-6 pb-24 sm:pb-28">
-      <div className="text-center mb-10">
+      <div className="text-center mb-12 sm:mb-14">
         <Pill>REVIEWS</Pill>
-        <h2 className="font-display text-2xl sm:text-[28px] text-offwhite mt-4">What clients say</h2>
+        <h2 className="font-display text-2xl sm:text-[28px] text-offwhite mt-4">
+          What clients say
+        </h2>
         <p className="font-body text-sm text-muted mt-2 max-w-md mx-auto">
-          Early days — this space is reserved for client reviews as projects wrap up.
+          Feedback on our build speed, communication, and conversion results.
         </p>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        {PLACEHOLDERS.map((i) => (
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {REVIEWS.slice(0, 3).map((r) => (
           <div
-            key={i}
-            className="border border-dashed border-borderLight rounded-xl p-6 flex flex-col items-center justify-center text-center min-h-[160px]"
+            key={r.id}
+            className="group bg-surface border border-border hover:border-borderLight rounded-xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1"
           >
-            <Quote size={20} color="#" fill="#f5a623" className="text-mutedDark mb-3" />
-            <p className="font-body text-sm text-mutedDark">The project was completed on time and the overall implementation was impressive. Great work and attention to detail.</p>
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-1 text-amber">
+                  {[...Array(r.rating)].map((_, i) => (
+                    <Star key={i} size={14} fill="currentColor" />
+                  ))}
+                </div>
+                <Quote size={18} className="text-borderLight group-hover:text-teal transition-colors" />
+              </div>
+
+              <div className="mb-3">
+                <span className="font-mono text-[11px] text-teal bg-teal/10 border border-teal/20 px-2 py-0.5 rounded">
+                  {r.service}
+                </span>
+              </div>
+
+              <p className="font-body text-sm text-muted leading-relaxed italic">
+                "{r.quote}"
+              </p>
+            </div>
+
+            <div className="pt-5 mt-6 border-t border-borderLight flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-surfaceAlt border border-borderLight flex items-center justify-center font-mono text-xs text-offwhite font-medium">
+                <img className="w-full h-full rounded-full" src={r.avatar} alt="client_review" />
+              </div>
+              <div>
+                <h4 className="font-display text-sm text-offwhite leading-none">
+                  {r.name}
+                </h4>
+                <p className="font-body text-xs text-muted mt-1">
+                  {r.role} · {r.company}
+                </p>
+              </div>
+            </div>
           </div>
         ))}
       </div>

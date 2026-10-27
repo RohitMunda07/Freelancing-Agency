@@ -8,6 +8,8 @@ import Work from "./Work.jsx";
 import Reviews from "./Reviews.jsx";
 import Contact from "./Contact.jsx";
 import Connect from "./Connect.jsx";
+import PreviousWork from "./PreviousWork.jsx";
+
 
 export default function PublicSite({ onLogin }) {
   return (
@@ -16,7 +18,8 @@ export default function PublicSite({ onLogin }) {
       <Hero onContact={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })} />
       <Services />
       <ProcessTimeline />
-      <Work />
+      {/* <Work /> */}
+      <PreviousWork onContact={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })} />
       <Reviews />
       <Contact />
       <Connect />

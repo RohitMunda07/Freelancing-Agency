@@ -137,3 +137,60 @@ export const SOCIALS = [
     href: "https://mail.google.com/mail/?view=cm&fs=1&to=rohit.dev14818@gmail.com&su=Project%20Inquiry",
   },
 ];
+
+export const REVIEWS = [
+  {
+    id: 1,
+    name: "Vikash Ratan",
+    role: "IT & Systems Lead",
+    company: "MECON LIMITED, RANCHI JHARKHAND",
+    avatar: "https://res.cloudinary.com/u7orcin4/image/upload/f_auto,q_auto:good,w_800,ar_16:10,c_fill,g_auto/v1793026230/MECON_sir.png",
+    service: "Internal Tool / CRM",
+    quote: "Rohit delivered an internal visitor logging portal that replaced our manual registers completely. Fast check-ins, clean access control, and zero lag on daily shift handovers. Clean work and great communication throughout.",
+    rating: 5,
+  },
+  // {
+  //   id: 2,
+  //   name: "Pooja Sharma",
+  //   role: "Founder",
+  //   company: "Artisan Bakes & Confectionery",
+  //   avatar: "PS",
+  //   service: "Website & Direct Ordering",
+  //   quote:
+  //     "Our previous site was clunky and people kept dropping off before ordering. The new storefront is ridiculously fast on mobile, and the direct WhatsApp order checkout made taking custom cake requests 10x smoother.",
+  //   rating: 5,
+  // },
+  // {
+  //   id: 3,
+  //   name: "Vikram Rathore",
+  //   role: "Marketing Manager",
+  //   company: "Urban Edge Activewear",
+  //   avatar: "VR",
+  //   service: "Meta Ads & Reel Creatives",
+  //   quote:
+  //     "Finding an agency that can both build the landing page and cut the short-form video ads is rare. The pacing and hooks on the reels cut our cost-per-lead significantly within the first two weeks.",
+  //   rating: 5,
+  // },
+  // {
+  //   id: 4,
+  //   name: "Dr. Neha Sen",
+  //   role: "Director",
+  //   company: "Apex Wellness Center",
+  //   avatar: "NS",
+  //   service: "Web Development & Lead Funnel",
+  //   quote:
+  //     "Super responsive and clear on deliverables. No unnecessary tech jargon—just clean UI, quick turnaround, and an inquiry flow that actually converts visitors into clinic consultations.",
+  //   rating: 5,
+  // },
+  // {
+  //   id: 5,
+  //   name: "Karan Malhotra",
+  //   role: "E-commerce Brand Owner",
+  //   company: "Loom & Thread Co.",
+  //   avatar: "KM",
+  //   service: "D2C Storefront & Ad Creative",
+  //   quote:
+  //     "The collection pages load instantly with zero layout shifts, and the product showcase reels looked super sharp. Great technical attention to detail on responsive layouts and asset compression.",
+  //   rating: 5,
+  // },
+];
