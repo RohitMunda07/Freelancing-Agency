@@ -9,6 +9,7 @@ import Reviews from "./Reviews.jsx";
 import Contact from "./Contact.jsx";
 import Connect from "./Connect.jsx";
 import PreviousWork from "./PreviousWork.jsx";
+import WhatsAppFloat from "../ui/WhatsAppFloat.jsx";
 
 
 export default function PublicSite({ onLogin }) {
@@ -24,6 +25,7 @@ export default function PublicSite({ onLogin }) {
       <Contact />
       <Connect />
       <Footer />
+      <WhatsAppFloat />
     </div>
   );
 }
