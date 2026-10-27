@@ -139,6 +139,7 @@ export default function PreviousWork({ onContact }) {
               <img
                 src={item.image}
                 alt={item.title}
+                loading="lazy"
                 className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                 onError={(e) => {
                   // Fallback container if the local image is not yet placed

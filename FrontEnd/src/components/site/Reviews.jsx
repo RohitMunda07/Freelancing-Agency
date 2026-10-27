@@ -45,7 +45,7 @@ export default function Reviews() {
 
             <div className="pt-5 mt-6 border-t border-borderLight flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-surfaceAlt border border-borderLight flex items-center justify-center font-mono text-xs text-offwhite font-medium">
-                <img className="w-full h-full rounded-full" src={r.avatar} alt="client_review" />
+                <img className="w-full h-full rounded-full" src={r.avatar} alt="client_review" loading="lazy" />
               </div>
               <div>
                 <h4 className="font-display text-sm text-offwhite leading-none">

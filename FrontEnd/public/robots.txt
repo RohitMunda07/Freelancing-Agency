@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://arising-box.netlify.app/sitemap.xml

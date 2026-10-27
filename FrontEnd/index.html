@@ -4,16 +4,65 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>ArisingBox — Meta Ads & Website</title>
+
+    <!-- Primary Meta Tags -->
+    <title>ArisingBox — Website Development, Meta Ads & Video Editing</title>
+    <meta
+      name="description"
+      content="ArisingBox builds high-performance websites, scales businesses with targeted Meta Ads, and produces high-retention reels and short-form video content."
+    />
+    <meta name="author" content="Rohit Kumar Munda" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook / WhatsApp Preview -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="ArisingBox — Website Development, Meta Ads & Video Editing" />
+    <meta
+      property="og:description"
+      content="High-converting websites, ROI-driven Meta Ads, and high-retention video reels built under one roof."
+    />
+    <meta property="og:image" content="/og-preview.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ArisingBox — Website Development, Meta Ads & Video Editing" />
+    <meta
+      name="twitter:description"
+      content="High-converting websites, ROI-driven Meta Ads, and high-retention video reels built under one roof."
+    />
+    <meta name="twitter:image" content="/og-preview.png" />
+
+    <!-- Structured Data (JSON-LD) for Founder & Entity SEO -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "ArisingBox",
+        "description": "Digital growth agency providing full-stack website development, Meta ad campaigns, and short-form video editing.",
+        "founder": {
+          "@type": "Person",
+          "name": "Rohit Kumar Munda"
+        },
+        "knowsAbout": [
+          "Website Development",
+          "Meta Ads",
+          "Short-Form Video Editing",
+          "MERN Stack"
+        ]
+      }
+    </script>
+
+    <!-- Theme Initialization Script (Prevents flash of wrong theme) -->
     <script>
-      // Runs before React mounts so there's no flash of the wrong theme
-      // on reload — reads the same key ThemeContext writes to.
       (function () {
         try {
           var saved = localStorage.getItem("ArisingBox-theme");
-          var theme = saved === "light" || saved === "dark"
-            ? saved
-            : (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+          var theme =
+            saved === "light" || saved === "dark"
+              ? saved
+              : window.matchMedia("(prefers-color-scheme: light)").matches
+              ? "light"
+              : "dark";
           document.documentElement.setAttribute("data-theme", theme);
         } catch (e) {}
       })();
